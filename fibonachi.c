@@ -1,18 +1,15 @@
 #include <stdio.h>
-#include <math.h>
+
+int result(int a) {
+    if (a <= 2) {
+        return 1;
+        return result(a - 1) + result(a - 2);
+    }
+}
 
 int main(void) {
-    double x, b, z, y;
-
-    x = 4.2;
-    b = -1.5;
-
-    if (x > b) {z = b + cos(x);} else {z = sqrt(b - x * x);}
-    if (z > x) {y = log(z * b);} else if (z < x) {y = (z - x) / (b + x) + sqrt(2 * b * x * z);} else {y = sin(x) - sin(z) / cos(z);}
-
-    printf("x: %lf\n", x);
-    printf("b: %lf\n", b);
-    printf("z: %lf\n", z);
-    printf("y: %lf\n", y);
-    
+    int a, i;
+    scanf("%d", &a);
+    for (i = 1; i <= a; i++)
+        printf("%d ", result(i));
 }
