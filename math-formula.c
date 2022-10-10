@@ -1,7 +1,10 @@
 #include <stdio.h>
 #include <math.h>
+#include <locale.h>
 
 int main(void) {
+    
+    setlocale(LC_ALL, "Russian");
     
     printf("%s", "Ниже представлены данные x, b, z, y исходя из математической формулы.\n");
     
@@ -17,5 +20,4 @@ int main(void) {
     printf("b: %lf\n", b);
     printf("z: %lf\n", z);
     printf("y: %lf\n", y);
-    
 }
