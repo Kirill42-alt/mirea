@@ -1,6 +1,9 @@
 #include <stdio.h>
+#include <locale.h>
 
 int main(void){
+    
+  setlocale(LC_ALL, "Russian");
     
   printf("%s", "Программа выводит четные числа из набора данных в массиве. \n");
     
