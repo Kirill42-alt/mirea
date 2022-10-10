@@ -2,6 +2,9 @@
 #include <math.h>
 
 int main(void) {
+    
+    printf("%s", "Программа ищет высоту треугольника по заданным параметрам.\n");
+    
     double x, y, z, p, result;
 
     printf("Введите основание a "); scanf("%lf",&x);
