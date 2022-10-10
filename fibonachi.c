@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <locale.h>
 
 int result(int a) {
     if (a <= 2) {
@@ -9,10 +10,12 @@ int result(int a) {
 
 int main(void) {
     
+    setlocale(LC_ALL, "Russian");
+    
     printf("%s", "Вывод чисел Фибоначчи. Задайте число: \n");
     
     int a, i;
-    scanf("%d", &a);
+    scanf_s("%d", &a);
     for (i = 1; i <= a; i++)
         printf("%d ", result(i));
 }
