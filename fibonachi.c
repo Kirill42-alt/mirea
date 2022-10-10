@@ -8,6 +8,9 @@ int result(int a) {
 }
 
 int main(void) {
+    
+    printf("%s", "Вывод чисел Фибоначчи. Задайте число: \n");
+    
     int a, i;
     scanf("%d", &a);
     for (i = 1; i <= a; i++)
