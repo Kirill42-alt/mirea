@@ -2,6 +2,9 @@
 #include <math.h>
 
 int main(void) {
+    
+    printf("%s", "Ниже представлены данные x, b, z, y исходя из математической формулы.\n");
+    
     double x, b, z, y;
 
     x = 4.2;
