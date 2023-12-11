@@ -1,0 +1,18 @@
+#include <stdio.h>
+
+int main() {
+    int quantity_cats, quantity_penguins;
+
+    printf("Please enter quantity cats:\n> ");
+    scanf("%d", &quantity_cats);
+    printf("Please enter quantity penguins:\n> ");
+    scanf("%d", &quantity_penguins);
+    
+    for (int count=0; count<quantity_cats; count++) {
+        printf("\n%s", "( О О )\n / V \\\n/( _ )\\\n^^   ^^");
+    }
+    
+    for (int count=0; count<quantity_penguins; count++) {
+        printf("\n%s", "  ^_^\n /@ @\\\n(~~0~~)");
+    }
+}
