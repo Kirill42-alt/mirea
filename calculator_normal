@@ -1,55 +1,72 @@
 #include <stdio.h>
-#include <conio.h>
 #include <math.h>
 
-int main (void) {
+char t = 'O';
 
-    double a, b;
-    char x = '+'; char y = '-'; char v = '*'; char z = '/'; char t = '^'; char result;
-    
-    scanf("%lf%c%lf", &a, &result, &b);
-    
-    do {
-    
-    if (result == x) {
-        printf("%lf + %lf = %lf\n", a, b, a + b);
-        a = ("%lf + %lf", a + b);
-        printf("%lf",a);
-    } else if (result == y) {
-        printf("%lf - %lf = %lf\n", a, b, a - b);
-        a = ("%lf - %lf", a - b);
-        printf("%lf",a);
-    } else if (result == v) {
-        printf("%lf * %lf = %lf\n", a, b, a * b);
-        a = ("%lf * %lf", a * b);
-        printf("%lf",a);
-    } else if (result == z) {
-        printf("%lf / %lf = %lf\n", a, b, a / b);
-        a = ("%lf / %lf", a / b);
-        printf("%lf",a);
-    } else if (result == t) {
-        printf("%lf ^ %lf = %lf\n", a, b, pow(a, b));
-        a = ("%lf ^ %lf", pow(a, b));
-        printf("%lf",a);
-    } else {
-        if (result == v) {
-            printf("%lf - %lf = %lf\n", a, b, a - b);
-            a = ("%lf - %lf", a - b);
-            printf("%lf",a);
-        } 
-        if (result == x) {
-            printf("%lf + %lf = %lf\n", a, b, a + b);
-            a = ("%lf + %lf", a + b);
-            printf("%lf",a);
-        } 
+double get_total(double a, double b, char c) {
+    double total;
+    switch (c) {
+        case '+' : total = a + b; break;
+        case '-' : total = a - b; break;
+        case '*' : total = a * b; break;
+        case '^' : total = pow(a, b); break;
+        case '/' :
+            if ( b == 0 ) {
+                fprintf(stderr, "Делить на ноль нельзя!\n"); break;
+            } else {
+                total = a / b;
+                break;
+            }
+        case '%' : t = 'E'; break;
+        default:
+            fprintf(stderr, "Неизвестный оператор '%c'.\n", c);
+            if (total != 0)
+                total = a;
+            return 0;
+    }
+    return total;
+}
 
+int main() {
+    int c;
+    double v1, v2, total;
+    char s;
+
+    while (1) {
+        t = 'O';
+
+        printf("############\nКАЛЬКУЛЯТОР\n############\n\n ФУНКЦИИ: СЛОЖЕНИЕ (+), ВЫЧИТАНИЕ (-), УМНОЖЕНИЕ (*), ДЕЛЕНИЕ (/), ВОЗВЕДЕНИЕ В СТЕПЕНЬ (^)\n--------------------------------\n\n");
+        printf("Укажите режим работы, где 1 - классический, \n2 - с запоминаем результата прошлого примера: ");
+        scanf("%d", &c);
+        if (c == 0) break;
+
+        printf("> ");
+        scanf("%lf %c %lf", &v1, &s, &v2);
+
+        total = get_total(v1, v2, s);
+        printf("Ответ = %.6lf\n", total);
+
+        if (c == 1) {
+            while (t != 'E') {
+                printf("> ");
+                scanf("%lf %c %lf", &v1, &s, &v2);
+                if (t == 'E')
+                    continue;
+                printf("Ответ = %.6lf\n", get_total(v1, v2, s));
+            }
+        } else if (c == 2) {
+            while (t != 'E') {
+                printf("Ответ: ");
+                scanf(" %c %lf", &s, &v2);
+                if (t == 'E')
+                    continue;
+
+
+                total = get_total(total, v2, s);
+                printf("Ответ = %.6lf\n", total);
+            }
+        }
     }
-    scanf("%c%lf",&result, &b);
-    
-    // = ("%lf",a);
-    //printf("%lf",a);
-    //scanf("%c%lf",&result, &b);
-    }
-    
-    while (1);
+
+    return 0;
 }
