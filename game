@@ -1,35 +1,51 @@
 #include <stdio.h>
+#include <string.h>
 
 int main() {
-    char word;
+    char word[19];
     int player;
 
     printf("Придумайте слово:\n> ");
-    scanf("%s", &word);
+    scanf("%s", word);
     printf("\e[1;1H\e[2J");
     printf("Загаданное cлово было скрыто!\n");
     printf("Количество игроков:\n> ");
     scanf("%d", &player);
     
     if (player != 0) {
-        char *arr_private[5] = {"с", "л", "о", "в", "о"};
-        char *arr_public[5] = {"*", "*", "*", "*", "*"};
-        
+
         printf("\e[1;1H\e[2J");
-        printf("Слово:\n");
-        int str = ("%d\n", (int)(sizeof(arr_private) / sizeof(arr_private[0])));
+        printf("Слово:\n\n");
+
+        int len = strlen(word);
+        //printf("%d\n", l1);
         
-        for (int i = 0; i < 5; i++) {
-            printf("%s ", arr_public[i]);
+        for (int i=0; i<len; i++) {
+            printf("%s", "* ");
         }
         
-        while (1) {
-            for (int k = 1; k < player; k++) {
-                printf("%d ", k);
+        printf("\n-----------------\n\n");
+        
+        int victory = 0;
+        char *letter;
+        
+        while(victory != len) {
+            for (int q=1; q<player+1; q++) {
+                printf("Игрок %d: ", q);
+                scanf("%s", letter);
+                
+                if (strlen(letter) < 1) {
+                    
+                } else {
+                    printf("Вводить можно только одну букву!\n\n");
+                    printf("Игрок %d: ", q);
+                    scanf("%s", letter);
+                }
+                
             }
         }
         
     } else {
-        printf("Ошибка. Игроки не обнаружены.");
+        printf("Игроки не обнаружены.");
     }
 }
