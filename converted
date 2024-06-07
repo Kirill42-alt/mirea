@@ -1,0 +1,132 @@
+from tkinter import *
+import tkinter as tk
+import requests
+from tkhtmlview import HTMLLabel
+import tkinter.messagebox
+from PIL import ImageTk, Image
+import xml.etree.ElementTree as APIcentral
+
+
+def bitcoin():
+    request = requests.get('https://api.coinbase.com/v2/prices/spot?currency=USD')
+    data = request.json()
+    result = data['data']['amount']
+    return result
+
+
+apiUSArequests = float(APIcentral.fromstring(requests.get('https://www.cbr.ru/scripts/XML_daily.asp').text).find
+                       ("./Valute[CharCode='USD']/Value").text.replace(",", "."))
+
+
+def perform():
+    value = convertedStart.get()
+
+    if value != "":
+        request = requests.get('https://api.coinbase.com/v2/prices/spot?currency=USD')
+        data = request.json()
+        score = data['data']['amount']
+        result = float(value)/apiUSArequests/float(score)
+        payBitcoin.configure(text=result, fg="#000", font=("Sans-serif", 14, 'bold'))
+        payBitcoin.place(x=-38, y=300)
+    else:
+        payBitcoin.configure(text="I can't count if there are no numbers :P", fg="red", font=("Sans-serif", 10, 'bold'))
+        payBitcoin.place(x=40, y=300)
+
+
+def validate(val):
+    return val == "" or val.isnumeric()
+
+
+def about():
+    tk.messagebox.showinfo("About the program",
+                           "The program converts the Russian currency (ruble) into Bitcoin. The program "
+                           "automatically receives the current rates of cryptocurrency and the US dollar "
+                           "when executing the program based on "
+                           "requests to the settlement exchange and the Central Bank of the "
+                           "Russian Federation, therefore, a network connection is "
+                           "required for the program to work.")
+
+
+def real(block):
+    block.selection_range(0, END)
+
+
+root = tk.Tk()
+root.title("Converter Bitcoin with API")
+root.resizable(width=False, height=False)
+root.geometry("370x513")
+icon = tk.PhotoImage(file="bitcoin-ico16.png")
+root.iconphoto(False, icon)
+root.configure(bg='#c9d4e1')
+
+label = tk.Label(text="Let's convert together!", fg="#475b6c", bg="#c9d4e1", font=("Sans-serif", 17, 'bold'))
+label.pack()
+label.place(x=53, y=45)
+
+infoConvert = Label(root, text="Enter the amount in rubles in the field below",
+                    bg="#c9d4e1",
+                    fg="#000",
+                    width=38,
+                    height=0,
+                    bd=0,
+                    font=("Sans-serif", 8))
+infoConvert.place(x=23, y=100)
+valid = (root.register(validate), '%P')
+convertedStart = Entry(root, relief='flat', borderwidth=0, validate="key", validatecommand=valid)
+convertedStart.focus_set()
+convertedStart.pack()
+convertedStart.place(x=30, y=120, width=210, height=35)
+
+converted = Button(root, text="Convert", command=perform, width=18, pady=8, font=("Sans-serif", 8),
+                   bg="#276abf", fg="#fff", relief='flat', borderwidth=0, activebackground="#4087e1",
+                   activeforeground="#fff", cursor="hand2")
+converted.bind("<Enter>", lambda e: converted.config(fg='#fff', bg='#4087e1'))
+converted.bind("<Leave>", lambda e: converted.config(fg='#fff', bg='#276abf'))
+converted.place(x=227, y=120)
+
+logoBitcoin = Canvas(root, width=130, height=120, bg="#c9d4e1", borderwidth=10, highlightthickness=0)
+logoBitcoin.pack()
+logoBitcoin.place(x=105, y=160)
+lg = ImageTk.PhotoImage(Image.open("bitcoin.png"))
+logoBitcoin.create_image(30, 30, anchor=NW, image=lg)
+
+payBitcoin = Label(root, text="0 BTC", bg="#c9d4e1", fg="#000", width=37, height=2, bd=0,
+                   font=("Sans-serif", 14, "bold"))
+payBitcoin.pack(fill=X)
+payBitcoin.place(x=-38, y=300)
+
+convertedStart.bind('<Return>', perform)
+
+usa = tk.Label(root, text=f'Current course Dollars USA: {apiUSArequests} per ruble',
+               font=("Sans-serif", 8), bg="#c9d4e1", fg="#000")
+usa.place(x=10, y=395)
+
+marketBitcoin = tk.Label(root, text=f'Current course Bitcoin: {bitcoin()}$ per 1 BTC',
+                         font=("Sans-serif", 8), bg="#c9d4e1", fg="#000")
+marketBitcoin.place(x=10, y=416)
+
+
+aboutProgram = Button(root, text="About the program", command=about, width=16, pady=8,
+                      font=("Sans-serif", 8), bg="#c9d4e1", fg="#0f4283", relief='flat',
+                      borderwidth=0, activebackground="#4087e1", activeforeground="#fff", cursor="hand2")
+aboutProgram.pack(side='bottom')
+aboutProgram.bind("<Enter>", lambda e: aboutProgram.config(fg='#03045e', bg='#bac7d5'))
+aboutProgram.bind("<Leave>", lambda e: aboutProgram.config(fg='#03045e', bg='#c9d4e1'))
+aboutProgram.place(x=260, y=410)
+
+footer = HTMLLabel(root, html='<div style="font-size: 7px;color: #4a4a4a;text-align: left;">'
+                              'The program receives up-to-date information about the exchange '
+                              'rate of the cryptocurrency<br> and the US dollar based on GET '
+                              'requests to the CoinBase exchange and the Central Bank of<br>'
+                              'the Russian Federation via the API.<br>'
+                              '<a href="https://docs.cdp.coinbase.com/platform-apis/docs/welcome/" '
+                              'style="color: #0f4283;text-decoration: none;"><b>'
+                              'Documentation API exchanges CoinBase</b></a>'
+                              ' и <a href="https://www.cbr.ru/development/SXML/" '
+                              'style="color: #0f4283;text-decoration: none;"><b>'
+                              'Documentation API Central Bank</b></a></div>', width=100, height=70, bg="red", pady=6)
+footer.pack()
+footer.place(x=0, y=450)
+
+if __name__ == '__main__':
+    root.mainloop()
