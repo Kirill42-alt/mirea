@@ -1,0 +1,27 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+data = np.random.rand(50)
+
+mean_value = np.mean(data)
+median_value = np.median(data)
+
+print(f"Среднее значение: {mean_value}")
+print(f"Медианное значение: {median_value}")
+
+# Сравнение значений
+if mean_value > median_value:
+    print("Среднее значение больше медианного. Распределение данных может быть смещено вправо (положительно).")
+elif mean_value < median_value:
+    print("Среднее значение меньше медианного. Распределение данных может быть смещено влево (отрицательно).")
+else:
+    print("Среднее значение равно медианному. Распределение данных может быть симметричным.")
+
+# Строим точечную диаграмму рассеяния
+plt.figure(figsize=(8, 6))
+plt.scatter(range(len(data)), data, s=10, c='blue')
+plt.title("Точечная диаграмма рассеяния случайного ряда")
+plt.xlabel("Индекс элемента")
+plt.ylabel("Значение")
+plt.grid(True)
+plt.show()
