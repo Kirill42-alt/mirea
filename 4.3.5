@@ -1,0 +1,18 @@
+''' КВБО-07-23 Малинин К.Д. '''
+
+import math
+
+x = int(input("Первое число: "))
+y = int(input("Второе число: "))
+z = input("Знак (+ - / *) или 1, 2, 3, 4 для выполнения формулы: ")
+
+match z:
+    case "+":print("Ответ: ", x + y)
+    case "-":print("Ответ: ", x - y)
+    case "*":print("Ответ: ", x * y)
+    case "/":print("Ответ: ", x / y)
+    case "1":print("Ответ: ", math.e**(x + y))
+    case "2":print("Ответ: ", math.sin(math.sin(x + y)))
+    case "3":print("Ответ: ", math.cos(math.cos(x + y)))
+    case "4":print("Ответ: ", x ** y)
+    case _:print("Неизвестный математический символ")
