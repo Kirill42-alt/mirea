@@ -1,0 +1,9 @@
+public class Main {
+    public static void main(String[] args) {
+        // Создаем переменную с любимым временем года
+        String favoriteSeason = "Зима";
+
+        // Выводим информацию о любимом времени года
+        System.out.println("Моё любимое время года - " + favoriteSeason);
+    }
+}
