@@ -1,0 +1,16 @@
+// Практическая №1, 7 задание
+
+public class Main {
+    public static int factorial(int n) { // Метод для вычисления факториала
+        int result = 1; // Начальное значение для произведения
+        for (int i = 1; i <= n; i++) {
+            result *= i; // Умножаем на текущее значение i
+        }
+        return result; // Возвращаем результат
+    }
+
+    public static void main(String[] args) {
+        int number = 5; // Число, для которого будем вычислять факториал
+        System.out.println("Факториал числа " + number + " = " + factorial(number)); // Выводим результат
+    }
+}
