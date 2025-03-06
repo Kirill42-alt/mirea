@@ -1,0 +1,61 @@
+import java.util.Arrays;
+
+// Класс Student, реализующий интерфейс Comparable
+class Student implements Comparable<Student> {
+    private int iDNumber;
+    private String name;
+    private double GPA;
+
+    // Конструктор
+    public Student(int iDNumber, String name, double GPA) {
+        this.iDNumber = iDNumber;
+        this.name = name;
+        this.GPA = GPA;
+    }
+
+    // Геттер для GPA
+    public double getGPA() {
+        return GPA;
+    }
+
+    // Реализация метода compareTo() для сортировки по GPA (по убыванию)
+    @Override
+    public int compareTo(Student other) {
+        return Double.compare(other.getGPA(), this.GPA); // Сортировка по убыванию
+    }
+
+    @Override
+    public String toString() {
+        return "Student { ID: " + iDNumber + ", Name: " + name + ", GPA: " + GPA + " }";
+    }
+}
+
+// Класс для тестирования
+public class ComparableTest {
+    public static void main(String[] args) {
+        Student[] students = {
+            new Student(101, "Alice", 3.8),
+            new Student(102, "Bob", 3.5),
+            new Student(103, "Charlie", 3.9),
+            new Student(104, "David", 3.6)
+        };
+
+        // Вывод исходного массива
+        System.out.println("Исходный массив студентов:");
+        printArray(students);
+
+        // Сортировка с использованием Comparable
+        Arrays.sort(students);
+
+        // Вывод отсортированного массива
+        System.out.println("\nОтсортированный массив студентов (по убыванию GPA):");
+        printArray(students);
+    }
+
+    // Метод для вывода массива
+    public static void printArray(Student[] array) {
+        for (Student student : array) {
+            System.out.println(student);
+        }
+    }
+}
