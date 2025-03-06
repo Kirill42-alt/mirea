@@ -1,0 +1,204 @@
+import java.util.*;
+
+// Интерфейс для выражений
+interface TripleExpression {
+    int evaluate(int x, int y, int z) throws ArithmeticException;
+}
+
+// Класс для константы
+class Const implements TripleExpression {
+    private final int value;
+
+    public Const(int value) {
+        this.value = value;
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return value;
+    }
+}
+
+// Класс для переменной
+class Variable implements TripleExpression {
+    private final String name;
+
+    public Variable(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        switch (name) {
+            case "x": return x;
+            case "y": return y;
+            case "z": return z;
+            default: throw new IllegalArgumentException("Неизвестная переменная: " + name);
+        }
+    }
+}
+
+// Абстрактный класс для бинарных операций
+abstract class BinaryOperation implements TripleExpression {
+    protected final TripleExpression left, right;
+
+    public BinaryOperation(TripleExpression left, TripleExpression right) {
+        this.left = left;
+        this.right = right;
+    }
+}
+
+// Класс сложения
+class Add extends BinaryOperation {
+    public Add(TripleExpression left, TripleExpression right) {
+        super(left, right);
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return left.evaluate(x, y, z) + right.evaluate(x, y, z);
+    }
+}
+
+// Класс вычитания
+class Subtract extends BinaryOperation {
+    public Subtract(TripleExpression left, TripleExpression right) {
+        super(left, right);
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return left.evaluate(x, y, z) - right.evaluate(x, y, z);
+    }
+}
+
+// Класс умножения
+class Multiply extends BinaryOperation {
+    public Multiply(TripleExpression left, TripleExpression right) {
+        super(left, right);
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return left.evaluate(x, y, z) * right.evaluate(x, y, z);
+    }
+}
+
+// Класс деления
+class Divide extends BinaryOperation {
+    public Divide(TripleExpression left, TripleExpression right) {
+        super(left, right);
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        int divisor = right.evaluate(x, y, z);
+        if (divisor == 0) {
+            throw new ArithmeticException("division by zero");
+        }
+        return left.evaluate(x, y, z) / divisor;
+    }
+}
+
+// Класс унарного минуса
+class Negate implements TripleExpression {
+    private final TripleExpression expr;
+
+    public Negate(TripleExpression expr) {
+        this.expr = expr;
+    }
+
+    @Override
+    public int evaluate(int x, int y, int z) {
+        return -expr.evaluate(x, y, z);
+    }
+}
+
+// Парсер выражений
+class ExpressionParser {
+    private String expression;
+    private int pos;
+
+    public TripleExpression parse(String expr) {
+        this.expression = expr.replaceAll("\\s+", "");
+        this.pos = 0;
+        return parseExpression();
+    }
+
+    private TripleExpression parseExpression() {
+        TripleExpression result = parseTerm();
+        while (pos < expression.length()) {
+            char op = expression.charAt(pos);
+            if (op == '+' || op == '-') {
+                pos++;
+                TripleExpression nextTerm = parseTerm();
+                result = (op == '+') ? new Add(result, nextTerm) : new Subtract(result, nextTerm);
+            } else {
+                break;
+            }
+        }
+        return result;
+    }
+
+    private TripleExpression parseTerm() {
+        TripleExpression result = parseFactor();
+        while (pos < expression.length()) {
+            char op = expression.charAt(pos);
+            if (op == '*' || op == '/') {
+                pos++;
+                TripleExpression nextFactor = parseFactor();
+                result = (op == '*') ? new Multiply(result, nextFactor) : new Divide(result, nextFactor);
+            } else {
+                break;
+            }
+        }
+        return result;
+    }
+
+    private TripleExpression parseFactor() {
+        if (pos >= expression.length()) {
+            throw new IllegalArgumentException("Некорректное выражение");
+        }
+        char ch = expression.charAt(pos);
+        if (ch == '-') {
+            pos++;
+            return new Negate(parseFactor());
+        } else if (Character.isDigit(ch)) {
+            int start = pos;
+            while (pos < expression.length() && Character.isDigit(expression.charAt(pos))) {
+                pos++;
+            }
+            return new Const(Integer.parseInt(expression.substring(start, pos)));
+        } else if (Character.isLetter(ch)) {
+            pos++;
+            return new Variable(String.valueOf(ch));
+        } else if (ch == '(') {
+            pos++;
+            TripleExpression result = parseExpression();
+            if (pos >= expression.length() || expression.charAt(pos) != ')') {
+                throw new IllegalArgumentException("Пропущена закрывающая скобка");
+            }
+            pos++;
+            return result;
+        } else {
+            throw new IllegalArgumentException("Некорректный символ: " + ch);
+        }
+    }
+}
+
+// Главный класс
+public class Main {
+    public static void main(String[] args) {
+        ExpressionParser parser = new ExpressionParser();
+        TripleExpression expr = parser.parse("1000000*x*x*x*x*x/(x-1)");
+
+        System.out.println("x f");
+        for (int x = 0; x <= 10; x++) {
+            try {
+                System.out.println(x + " " + expr.evaluate(x, 0, 0));
+            } catch (ArithmeticException e) {
+                System.out.println(x + " " + e.getMessage());
+            }
+        }
+    }
+}
