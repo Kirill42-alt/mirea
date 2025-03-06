@@ -1,0 +1,129 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Класс, описывающий точку на плоскости
+class Point {
+    private double x;
+    private double y;
+
+    // Конструктор
+    public Point(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    // Геттеры и сеттеры
+    public double getX() {
+        return x;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    @Override
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
+}
+
+// Класс, описывающий окружность
+class Circle {
+    private Point center; // Центр окружности
+    private double radius; // Радиус окружности
+
+    // Конструктор
+    public Circle(Point center, double radius) {
+        this.center = center;
+        this.radius = radius;
+    }
+
+    // Геттеры и сеттеры
+    public Point getCenter() {
+        return center;
+    }
+
+    public void setCenter(Point center) {
+        this.center = center;
+    }
+
+    public double getRadius() {
+        return radius;
+    }
+
+    public void setRadius(double radius) {
+        this.radius = radius;
+    }
+
+    // Метод для вычисления площади окружности
+    public double getArea() {
+        return Math.PI * radius * radius;
+    }
+
+    // Метод для вычисления длины окружности
+    public double getCircumference() {
+        return 2 * Math.PI * radius;
+    }
+
+    @Override
+    public String toString() {
+        return "Окружность с центром в " + center + " и радиусом " + radius;
+    }
+}
+
+// Класс для тестирования Circle
+class Tester {
+    private List<Circle> circles; // Список окружностей
+    private int count; // Количество окружностей
+
+    // Конструктор
+    public Tester() {
+        circles = new ArrayList<>();
+        count = 0;
+    }
+
+    // Метод добавления окружности
+    public void addCircle(Circle circle) {
+        circles.add(circle);
+        count++;
+    }
+
+    // Метод вывода всех окружностей
+    public void displayCircles() {
+        for (Circle circle : circles) {
+            System.out.println(circle);
+        }
+    }
+
+    // Геттер количества окружностей
+    public int getCount() {
+        return count;
+    }
+}
+
+// Основной класс для тестирования
+public class CircleTest {
+    public static void main(String[] args) {
+        Tester tester = new Tester();
+
+        // Создание окружностей
+        tester.addCircle(new Circle(new Point(0, 0), 5));
+        tester.addCircle(new Circle(new Point(3, 4), 10));
+        tester.addCircle(new Circle(new Point(-2, -2), 7));
+
+        // Вывод информации о всех окружностях
+        System.out.println("Окружности в системе:");
+        tester.displayCircles();
+
+        // Вывод количества окружностей
+        System.out.println("Общее количество окружностей: " + tester.getCount());
+    }
+}
