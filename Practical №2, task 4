@@ -1,0 +1,142 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+// Класс, описывающий компьютер
+class Computer {
+    private String brand;
+    private String model;
+    private double price;
+
+    // Конструктор
+    public Computer(String brand, String model, double price) {
+        this.brand = brand;
+        this.model = model;
+        this.price = price;
+    }
+
+    // Геттеры
+    public String getBrand() {
+        return brand;
+    }
+
+    public String getModel() {
+        return model;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    // Переопределение метода toString
+    @Override
+    public String toString() {
+        return "Компьютер: " + brand + " " + model + ", Цена: " + price + " руб.";
+    }
+}
+
+// Класс магазина
+class Shop {
+    private List<Computer> computers;
+
+    // Конструктор
+    public Shop() {
+        computers = new ArrayList<>();
+    }
+
+    // Метод добавления компьютера
+    public void addComputer(Computer computer) {
+        computers.add(computer);
+    }
+
+    // Метод удаления компьютера
+    public void removeComputer(String brand, String model) {
+        computers.removeIf(computer -> computer.getBrand().equalsIgnoreCase(brand) && 
+                                    computer.getModel().equalsIgnoreCase(model));
+    }
+
+    // Метод поиска компьютера
+    public Computer findComputer(String brand, String model) {
+        for (Computer computer : computers) {
+            if (computer.getBrand().equalsIgnoreCase(brand) && 
+                computer.getModel().equalsIgnoreCase(model)) {
+                return computer;
+            }
+        }
+        return null;
+    }
+
+    // Метод вывода списка компьютеров
+    public void displayComputers() {
+        if (computers.isEmpty()) {
+            System.out.println("Магазин пуст.");
+        } else {
+            for (Computer computer : computers) {
+                System.out.println(computer);
+            }
+        }
+    }
+}
+
+// Класс для тестирования магазина
+public class ShopTest {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Shop shop = new Shop();
+
+        while (true) {
+            System.out.println("\nМеню:");
+            System.out.println("1. Добавить компьютер");
+            System.out.println("2. Удалить компьютер");
+            System.out.println("3. Найти компьютер");
+            System.out.println("4. Показать все компьютеры");
+            System.out.println("5. Выйти");
+            System.out.print("Выберите действие: ");
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // Очистка буфера
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Введите бренд: ");
+                    String brand = scanner.nextLine();
+                    System.out.print("Введите модель: ");
+                    String model = scanner.nextLine();
+                    System.out.print("Введите цену: ");
+                    double price = scanner.nextDouble();
+                    shop.addComputer(new Computer(brand, model, price));
+                    System.out.println("Компьютер добавлен!");
+                    break;
+                case 2:
+                    System.out.print("Введите бренд компьютера для удаления: ");
+                    brand = scanner.nextLine();
+                    System.out.print("Введите модель компьютера для удаления: ");
+                    model = scanner.nextLine();
+                    shop.removeComputer(brand, model);
+                    System.out.println("Компьютер удалён (если он был в магазине).");
+                    break;
+                case 3:
+                    System.out.print("Введите бренд компьютера для поиска: ");
+                    brand = scanner.nextLine();
+                    System.out.print("Введите модель компьютера для поиска: ");
+                    model = scanner.nextLine();
+                    Computer found = shop.findComputer(brand, model);
+                    if (found != null) {
+                        System.out.println("Найден: " + found);
+                    } else {
+                        System.out.println("Компьютер не найден.");
+                    }
+                    break;
+                case 4:
+                    System.out.println("Все компьютеры в магазине:");
+                    shop.displayComputers();
+                    break;
+                case 5:
+                    System.out.println("Выход...");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Неверный выбор, попробуйте снова.");
+            }
+        }
+    }
+}
