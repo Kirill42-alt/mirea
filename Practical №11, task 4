@@ -1,0 +1,32 @@
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
+
+public class DateTimeCreator {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Ввод данных от пользователя
+        System.out.print("Введите год: ");
+        int year = scanner.nextInt();
+        System.out.print("Введите месяц (1-12): ");
+        int month = scanner.nextInt() - 1; // В Calendar месяцы идут с 0
+        System.out.print("Введите день месяца: ");
+        int day = scanner.nextInt();
+        System.out.print("Введите часы: ");
+        int hours = scanner.nextInt();
+        System.out.print("Введите минуты: ");
+        int minutes = scanner.nextInt();
+
+        // Создание объекта Calendar
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(year, month, day, hours, minutes);
+
+        // Получение объекта Date из Calendar
+        Date date = calendar.getTime();
+
+        // Вывод результата
+        System.out.println("Созданный объект Date: " + date);
+        System.out.println("Созданный объект Calendar: " + calendar.getTime());
+    }
+}
