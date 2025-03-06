@@ -1,0 +1,47 @@
+class Employer {
+    protected String firstName;
+    protected String lastName;
+    protected double income;
+
+    public Employer(String firstName, String lastName, double income) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.income = income;
+    }
+
+    public double getIncome() {
+        return income * 12; // Годовой доход
+    }
+
+    @Override
+    public String toString() {
+        return firstName + " " + lastName + " имеет доход: " + getIncome();
+    }
+}
+
+class Manager extends Employer {
+    private double averageSum;
+
+    public Manager(String firstName, String lastName, double income, double averageSum) {
+        super(firstName, lastName, income);
+        this.averageSum = averageSum;
+    }
+
+    @Override
+    public double getIncome() {
+        return super.getIncome() + averageSum; // Годовой доход + бонус от продаж
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Employer employer1 = new Employer("Иван", "Петров", 50000);
+        Employer manager1 = new Manager("Алексей", "Сидоров", 60000, 20000);
+
+        Employer[] employees = {employer1, manager1, new Manager("Мария", "Иванова", 70000, 25000)};
+
+        for (Employer emp : employees) {
+            System.out.println(emp);
+        }
+    }
+}
