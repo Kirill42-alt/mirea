@@ -1,0 +1,20 @@
+public class ArraySumAverage {
+    public static void main(String[] args) {
+        // Инициализация массива
+        int[] numbers = {10, 20, 30, 40, 50};
+        
+        int sum = 0;
+        
+        // Вычисление суммы элементов массива
+        for (int i = 0; i < numbers.length; i++) {
+            sum += numbers[i];
+        }
+        
+        // Вычисление среднего арифметического
+        double average = (double) sum / numbers.length;
+        
+        // Вывод результатов на экран
+        System.out.println("Сумма элементов массива: " + sum);
+        System.out.println("Среднее арифметическое: " + average);
+    }
+}
