@@ -1,0 +1,141 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+enum ComputerBrand {
+    DELL, HP, LENOVO, ASUS, APPLE, ACER;
+}
+
+class Processor {
+    private String model;
+    private double speed;
+
+    public Processor(String model, double speed) {
+        this.model = model;
+        this.speed = speed;
+    }
+
+    @Override
+    public String toString() {
+        return "Процессор: " + model + ", Скорость: " + speed + " ГГц";
+    }
+}
+
+class Memory {
+    private int size;
+
+    public Memory(int size) {
+        this.size = size;
+    }
+
+    @Override
+    public String toString() {
+        return "ОЗУ: " + size + " ГБ";
+    }
+}
+
+class Monitor {
+    private double size;
+
+    public Monitor(double size) {
+        this.size = size;
+    }
+
+    @Override
+    public String toString() {
+        return "Монитор: " + size + " дюймов";
+    }
+}
+
+class Computer {
+    private ComputerBrand brand;
+    private Processor processor;
+    private Memory memory;
+    private Monitor monitor;
+
+    public Computer(ComputerBrand brand, Processor processor, Memory memory, Monitor monitor) {
+        this.brand = brand;
+        this.processor = processor;
+        this.memory = memory;
+        this.monitor = monitor;
+    }
+
+    @Override
+    public String toString() {
+        return "Компьютер марки: " + brand + "\n" + processor + "\n" + memory + "\n" + monitor;
+    }
+}
+
+class Shop {
+    private List<Computer> computers = new ArrayList<>();
+
+    public void addComputer(Computer computer) {
+        computers.add(computer);
+    }
+
+    public void removeComputer(Computer computer) {
+        computers.remove(computer);
+    }
+
+    public Computer findComputer(ComputerBrand brand) {
+        for (Computer computer : computers) {
+            if (computer.toString().contains(brand.name())) {
+                return computer;
+            }
+        }
+        return null;
+    }
+
+    public void displayComputers() {
+        for (Computer computer : computers) {
+            System.out.println(computer + "\n");
+        }
+    }
+}
+
+public class ComputerShop {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Shop shop = new Shop();
+
+        System.out.print("Введите количество компьютеров: ");
+        int n = scanner.nextInt();
+        scanner.nextLine();
+        
+        for (int i = 0; i < n; i++) {
+            System.out.print("Введите марку компьютера (DELL, HP, LENOVO, ASUS, APPLE, ACER): ");
+            ComputerBrand brand = ComputerBrand.valueOf(scanner.nextLine().toUpperCase());
+            
+            System.out.print("Введите модель процессора: ");
+            String model = scanner.nextLine();
+            System.out.print("Введите скорость процессора (ГГц): ");
+            double speed = scanner.nextDouble();
+            scanner.nextLine();
+            
+            System.out.print("Введите объем ОЗУ (ГБ): ");
+            int memorySize = scanner.nextInt();
+            scanner.nextLine();
+            
+            System.out.print("Введите размер монитора (дюймы): ");
+            double monitorSize = scanner.nextDouble();
+            scanner.nextLine();
+            
+            shop.addComputer(new Computer(brand, new Processor(model, speed), new Memory(memorySize), new Monitor(monitorSize)));
+        }
+        
+        System.out.println("\nВсе компьютеры в магазине:");
+        shop.displayComputers();
+        
+        System.out.print("Введите марку компьютера для поиска: ");
+        ComputerBrand searchBrand = ComputerBrand.valueOf(scanner.nextLine().toUpperCase());
+        Computer foundComputer = shop.findComputer(searchBrand);
+        
+        if (foundComputer != null) {
+            System.out.println("Найден компьютер:\n" + foundComputer);
+        } else {
+            System.out.println("Компьютер данной марки не найден.");
+        }
+        
+        scanner.close();
+    }
+}
