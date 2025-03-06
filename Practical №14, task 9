@@ -1,0 +1,37 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class LetterFrequency {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Ввод текста
+        System.out.println("Введите текст:");
+        String text = scanner.nextLine().toLowerCase();
+        
+        // Символы, которые будем анализировать (можно изменить на русский алфавит)
+        char[] selectedLetters = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'};
+        
+        // Частотный словарь
+        Map<Character, Integer> frequencyMap = new HashMap<>();
+        for (char letter : selectedLetters) {
+            frequencyMap.put(letter, 0);
+        }
+        
+        // Подсчет частоты
+        for (char c : text.toCharArray()) {
+            if (frequencyMap.containsKey(c)) {
+                frequencyMap.put(c, frequencyMap.get(c) + 1);
+            }
+        }
+        
+        // Вывод результата
+        System.out.println("Частотный словарь:");
+        for (Map.Entry<Character, Integer> entry : frequencyMap.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+        
+        scanner.close();
+    }
+}
