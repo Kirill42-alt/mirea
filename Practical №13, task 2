@@ -1,0 +1,40 @@
+public class Person {
+    private String lastName;
+    private String firstName;
+    private String middleName;
+
+    // Конструктор
+    public Person(String lastName, String firstName, String middleName) {
+        this.lastName = lastName;
+        this.firstName = firstName;
+        this.middleName = middleName;
+    }
+
+    // Метод для получения Фамилии И.О.
+    public String getShortName() {
+        StringBuilder sb = new StringBuilder(lastName);
+        if (firstName != null && !firstName.isEmpty()) {
+            sb.append(" ").append(firstName.charAt(0)).append(".");
+        }
+        if (middleName != null && !middleName.isEmpty()) {
+            sb.append(middleName.charAt(0)).append(".");
+        }
+        return sb.toString();
+    }
+
+    @Override
+    public String toString() {
+        return getShortName();
+    }
+
+    // Тестовый метод
+    public static void main(String[] args) {
+        Person p1 = new Person("Иванов", "Петр", "Сергеевич");
+        Person p2 = new Person("Сидоров", "Алексей", null);
+        Person p3 = new Person("Петров", null, null);
+        
+        System.out.println(p1); // Иванов П.С.
+        System.out.println(p2); // Сидоров А.
+        System.out.println(p3); // Петров
+    }
+}
