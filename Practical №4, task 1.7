@@ -1,0 +1,80 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Суперкласс Учащийся
+class Learner {
+    protected String name;
+    protected int age;
+
+    public Learner(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public String getType() {
+        return "Учащийся";
+    }
+
+    @Override
+    public String toString() {
+        return getType() + ": " + name + ", возраст: " + age;
+    }
+}
+
+// Подкласс Школьник
+class SchoolStudent extends Learner {
+    private String schoolName;
+
+    public SchoolStudent(String name, int age, String schoolName) {
+        super(name, age);
+        this.schoolName = schoolName;
+    }
+
+    @Override
+    public String getType() {
+        return "Школьник";
+    }
+}
+
+// Подкласс Студент
+class UniversityStudent extends Learner {
+    private String universityName;
+
+    public UniversityStudent(String name, int age, String universityName) {
+        super(name, age);
+        this.universityName = universityName;
+    }
+
+    @Override
+    public String getType() {
+        return "Студент";
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Learner[] learners = {
+            new SchoolStudent("Иван Петров", 14, "Школа №1"),
+            new UniversityStudent("Алексей Сидоров", 20, "МГУ"),
+            new SchoolStudent("Мария Иванова", 15, "Гимназия №5"),
+            new UniversityStudent("Ольга Смирнова", 22, "СПбГУ")
+        };
+
+        List<Learner> schoolStudents = new ArrayList<>();
+        List<Learner> universityStudents = new ArrayList<>();
+
+        for (Learner learner : learners) {
+            if (learner instanceof SchoolStudent) {
+                schoolStudents.add(learner);
+            } else if (learner instanceof UniversityStudent) {
+                universityStudents.add(learner);
+            }
+        }
+
+        System.out.println("Школьники:");
+        schoolStudents.forEach(System.out::println);
+
+        System.out.println("\nСтуденты:");
+        universityStudents.forEach(System.out::println);
+    }
+}
