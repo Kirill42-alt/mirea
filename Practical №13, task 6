@@ -1,0 +1,66 @@
+import java.io.*;
+import java.util.*;
+
+public class WordChain {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите имя файла: ");
+        String fileName = scanner.nextLine();
+        scanner.close();
+
+        List<String> words = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                words.addAll(Arrays.asList(line.split("\\s+"))); // Разделение по пробелам
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка при чтении файла: " + e.getMessage());
+            return;
+        }
+
+        String result = getLine(words);
+        System.out.println("Результат: " + result);
+    }
+
+    public static String getLine(List<String> words) {
+        if (words.isEmpty()) return "";
+
+        words.sort(String.CASE_INSENSITIVE_ORDER); // Сортировка для предсказуемости
+        List<String> result = new ArrayList<>();
+        boolean[] used = new boolean[words.size()];
+
+        for (int i = 0; i < words.size(); i++) {
+            if (buildChain(words, result, used, i)) {
+                return String.join(" ", result);
+            }
+        }
+        return "";
+    }
+
+    private static boolean buildChain(List<String> words, List<String> result, boolean[] used, int index) {
+        result.clear();
+        Arrays.fill(used, false);
+        result.add(words.get(index));
+        used[index] = true;
+
+        for (int i = 0; i < words.size() - 1; i++) {
+            boolean found = false;
+            for (int j = 0; j < words.size(); j++) {
+                if (!used[j] && matches(result.get(result.size() - 1), words.get(j))) {
+                    result.add(words.get(j));
+                    used[j] = true;
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) return false;
+        }
+        return true;
+    }
+
+    private static boolean matches(String first, String second) {
+        return Character.toLowerCase(first.charAt(first.length() - 1)) == Character.toLowerCase(second.charAt(0));
+    }
+}
