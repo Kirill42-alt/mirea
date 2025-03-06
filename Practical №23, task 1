@@ -1,0 +1,169 @@
+import java.util.Queue;
+import java.util.Arrays;
+
+// Реализация очереди с использованием переменных класса (ArrayQueueModule)
+public class ArrayQueueModule {
+    private static Object[] elements = new Object[10];
+    private static int size = 0, head = 0, tail = 0;
+
+    public static void enqueue(Object element) {
+        ensureCapacity(size + 1);
+        elements[tail] = element;
+        tail = (tail + 1) % elements.length;
+        size++;
+    }
+
+    public static Object element() {
+        return elements[head];
+    }
+
+    public static Object dequeue() {
+        Object result = elements[head];
+        elements[head] = null;
+        head = (head + 1) % elements.length;
+        size--;
+        return result;
+    }
+
+    public static int size() {
+        return size;
+    }
+
+    public static boolean isEmpty() {
+        return size == 0;
+    }
+
+    public static void clear() {
+        elements = new Object[10];
+        size = head = tail = 0;
+    }
+
+    private static void ensureCapacity(int capacity) {
+        if (capacity > elements.length) {
+            elements = Arrays.copyOf(elements, elements.length * 2);
+            head = 0;
+            tail = size;
+        }
+    }
+}
+
+// Реализация очереди в виде абстрактного типа данных (ArrayQueueADT)
+class ArrayQueueADT {
+    private Object[] elements = new Object[10];
+    private int size = 0, head = 0, tail = 0;
+
+    public static void enqueue(ArrayQueueADT queue, Object element) {
+        ensureCapacity(queue, queue.size + 1);
+        queue.elements[queue.tail] = element;
+        queue.tail = (queue.tail + 1) % queue.elements.length;
+        queue.size++;
+    }
+
+    public static Object element(ArrayQueueADT queue) {
+        return queue.elements[queue.head];
+    }
+
+    public static Object dequeue(ArrayQueueADT queue) {
+        Object result = queue.elements[queue.head];
+        queue.elements[queue.head] = null;
+        queue.head = (queue.head + 1) % queue.elements.length;
+        queue.size--;
+        return result;
+    }
+
+    public static int size(ArrayQueueADT queue) {
+        return queue.size;
+    }
+
+    public static boolean isEmpty(ArrayQueueADT queue) {
+        return queue.size == 0;
+    }
+
+    public static void clear(ArrayQueueADT queue) {
+        queue.elements = new Object[10];
+        queue.size = queue.head = queue.tail = 0;
+    }
+
+    private static void ensureCapacity(ArrayQueueADT queue, int capacity) {
+        if (capacity > queue.elements.length) {
+            queue.elements = Arrays.copyOf(queue.elements, queue.elements.length * 2);
+            queue.head = 0;
+            queue.tail = queue.size;
+        }
+    }
+}
+
+// Реализация очереди в виде класса (ArrayQueue), имплементирующего Queue
+class ArrayQueue<E> implements Queue<E> {
+    private Object[] elements = new Object[10];
+    private int size = 0, head = 0, tail = 0;
+
+    @Override
+    public boolean add(E e) {
+        enqueue(e);
+        return true;
+    }
+
+    @Override
+    public boolean offer(E e) {
+        enqueue(e);
+        return true;
+    }
+
+    @Override
+    public E remove() {
+        return dequeue();
+    }
+
+    @Override
+    public E poll() {
+        return isEmpty() ? null : dequeue();
+    }
+
+    @Override
+    public E element() {
+        return isEmpty() ? null : (E) elements[head];
+    }
+
+    @Override
+    public E peek() {
+        return isEmpty() ? null : (E) elements[head];
+    }
+
+    public void enqueue(E element) {
+        ensureCapacity(size + 1);
+        elements[tail] = element;
+        tail = (tail + 1) % elements.length;
+        size++;
+    }
+
+    public E dequeue() {
+        if (isEmpty()) throw new IllegalStateException("Queue is empty");
+        E result = (E) elements[head];
+        elements[head] = null;
+        head = (head + 1) % elements.length;
+        size--;
+        return result;
+    }
+
+    public int size() {
+        return size;
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+
+    public void clear() {
+        elements = new Object[10];
+        size = head = tail = 0;
+    }
+
+    private void ensureCapacity(int capacity) {
+        if (capacity > elements.length) {
+            elements = Arrays.copyOf(elements, elements.length * 2);
+            head = 0;
+            tail = size;
+        }
+    }
+}
