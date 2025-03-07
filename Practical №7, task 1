@@ -1,0 +1,61 @@
+// Интерфейс Movable
+interface Movable {
+    void moveUp();
+    void moveDown();
+    void moveLeft();
+    void moveRight();
+}
+
+// Класс MovableRectangle, реализующий интерфейс Movable
+class MovableRectangle implements Movable {
+    private int x, y;
+    private int xSpeed, ySpeed;
+
+    public MovableRectangle(int x, int y, int xSpeed, int ySpeed) {
+        this.x = x;
+        this.y = y;
+        this.xSpeed = xSpeed;
+        this.ySpeed = ySpeed;
+    }
+
+    @Override
+    public void moveUp() {
+        y -= ySpeed;
+    }
+
+    @Override
+    public void moveDown() {
+        y += ySpeed;
+    }
+
+    @Override
+    public void moveLeft() {
+        x -= xSpeed;
+    }
+
+    @Override
+    public void moveRight() {
+        x += xSpeed;
+    }
+
+    @Override
+    public String toString() {
+        return "MovableRectangle at (" + x + ", " + y + "), Speed: (" + xSpeed + ", " + ySpeed + ")";
+    }
+}
+
+// Тестирование
+public class Main {
+    public static void main(String[] args) {
+        MovableRectangle rectangle = new MovableRectangle(10, 10, 2, 3);
+        System.out.println("Исходное положение: " + rectangle);
+        
+        rectangle.moveRight();
+        rectangle.moveDown();
+        System.out.println("После движения вправо и вниз: " + rectangle);
+        
+        rectangle.moveLeft();
+        rectangle.moveUp();
+        System.out.println("После движения влево и вверх: " + rectangle);
+    }
+}
