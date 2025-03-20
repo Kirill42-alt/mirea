@@ -1,0 +1,75 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+public class CurrencyConverter {
+    // Хранит курсы валют относительно базовой валюты (например, USD)
+    private Map<String, Double> exchangeRates = new HashMap<>();
+
+    // Конструктор
+    public CurrencyConverter() {
+        // Добавляем курсы валют по умолчанию (относительно USD)
+        exchangeRates.put("USD", 1.0);      // Базовая валюта
+        exchangeRates.put("EUR", 0.92);
+        exchangeRates.put("RUB", 91.5);
+        exchangeRates.put("JPY", 151.2);
+    }
+
+    // Добавление или обновление курса
+    public void setExchangeRate(String currencyCode, double rate) {
+        exchangeRates.put(currencyCode.toUpperCase(), rate);
+    }
+
+    // Получение курса валюты
+    public double getExchangeRate(String currencyCode) {
+        return exchangeRates.getOrDefault(currencyCode.toUpperCase(), -1.0);
+    }
+
+    // Конвертация из одной валюты в другую
+    public double convert(String fromCurrency, String toCurrency, double amount) {
+        fromCurrency = fromCurrency.toUpperCase();
+        toCurrency = toCurrency.toUpperCase();
+
+        if (!exchangeRates.containsKey(fromCurrency) || !exchangeRates.containsKey(toCurrency)) {
+            throw new IllegalArgumentException("Одна из валют не поддерживается.");
+        }
+
+        double amountInBase = amount / exchangeRates.get(fromCurrency); // в USD
+        return amountInBase * exchangeRates.get(toCurrency); // в целевую валюту
+    }
+
+    // Тестирование
+    public static void main(String[] args) {
+        CurrencyConverter converter = new CurrencyConverter();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== Конвертер валют ===");
+
+        while (true) {
+            System.out.print("\nВведите валюту отправления (например, USD): ");
+            String from = scanner.next();
+
+            System.out.print("Введите валюту назначения (например, EUR): ");
+            String to = scanner.next();
+
+            System.out.print("Введите сумму: ");
+            double amount = scanner.nextDouble();
+
+            try {
+                double result = converter.convert(from, to, amount);
+                System.out.printf("%.2f %s = %.2f %s\n", amount, from.toUpperCase(), result, to.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка: " + e.getMessage());
+            }
+
+            System.out.print("Продолжить? (yes/no): ");
+            String continueAnswer = scanner.next();
+            if (!continueAnswer.equalsIgnoreCase("yes")) {
+                break;
+            }
+        }
+
+        scanner.close();
+        System.out.println("Спасибо за использование конвертера валют!");
+    }
+}
