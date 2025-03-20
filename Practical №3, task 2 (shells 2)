@@ -1,0 +1,49 @@
+public class WrapperClassMethodsTable {
+    public static void main(String[] args) {
+        // Названия столбцов
+        String[] headers = {"Методы", "Boolean", "Byte", "Character", "Double", "Float", "Integer", "Long", "Short", "isStatic"};
+
+        // Данные таблицы
+        String[][] table = {
+                {"byteValue()",        " ", "X", " ", "X", "X", "X", "X", "X", " "},
+                {"doubleValue()",      " ", "X", " ", "X", "X", "X", "X", "X", " "},
+                {"floatValue()",       " ", "X", " ", "X", "X", "X", "X", "X", " "},
+                {"intValue()",         " ", "X", " ", "X", "X", "X", "X", "X", " "},
+                {"longValue()",        " ", "X", " ", "X", "X", "X", "X", "X", " "},
+                {"shortValue()",       " ", "X", " ", "X", "X", "X", "X", "X", " "},
+                {"parseXxx()",         "X", "X", " ", "X", "X", "X", "X", "X", "X"},
+                {"parseXxx(radix)",    " ", "X", " ", " ", " ", "X", "X", "X", "X"},
+                {"valueOf(radix)",     " ", "X", " ", " ", " ", "X", "X", "X", "X"},
+                {"toString()",         "X", "X", "X", "X", "X", "X", "X", "X", "X"},
+                {"toString(primitive)", " ", "X", "X", "X", "X", "X", "X", "X", "X"},
+                {"toString(primitive, radix)", " ", "X", " ", " ", " ", "X", "X", "X", "X"}
+        };
+
+        printTable(headers, table);
+    }
+
+    // Метод для печати таблицы
+    private static void printTable(String[] headers, String[][] data) {
+        int colWidth = 15;
+
+        // Печатаем заголовок
+        for (String header : headers) {
+            System.out.printf("%-" + colWidth + "s", header);
+        }
+        System.out.println();
+
+        // Печатаем разделитель
+        for (int i = 0; i < headers.length; i++) {
+            System.out.print("-".repeat(colWidth));
+        }
+        System.out.println();
+
+        // Печатаем строки данных
+        for (String[] row : data) {
+            for (String cell : row) {
+                System.out.printf("%-" + colWidth + "s", cell);
+            }
+            System.out.println();
+        }
+    }
+}
