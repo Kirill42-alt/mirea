@@ -1,0 +1,27 @@
+import java.util.Scanner;
+
+public class Exception2 {
+    public void exceptionDemo() {
+        Scanner myScanner = new Scanner(System.in);
+        try {
+            System.out.print("Введите целое число: ");
+            String intString = myScanner.next();
+            int i = Integer.parseInt(intString); // Может вызвать NumberFormatException
+            System.out.println("Результат 2 / " + i + " = " + (2 / i)); // Может вызвать ArithmeticException
+        } catch (NumberFormatException e) {
+            System.out.println("Ошибка: Введено нецелое число!");
+        } catch (ArithmeticException e) {
+            System.out.println("Ошибка: Деление на ноль!");
+        } catch (Exception e) {
+            System.out.println("Общая ошибка: " + e.getMessage());
+        } finally {
+            System.out.println("Ресурсы освобождены (Scanner закрыт).");
+            myScanner.close();
+        }
+    }
+
+    public static void main(String[] args) {
+        Exception2 obj = new Exception2();
+        obj.exceptionDemo();
+    }
+}
