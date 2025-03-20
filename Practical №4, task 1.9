@@ -1,0 +1,141 @@
+public abstract class Furniture {
+    protected String material;
+    protected String color;
+    protected double price;
+
+    public Furniture(String material, String color, double price) {
+        this.material = material;
+        this.color = color;
+        this.price = price;
+    }
+
+    public abstract void displayInfo();
+
+    public double getPrice() {
+        return price;
+    }
+}
+
+public class Chair extends Furniture {
+    private boolean hasArmrests;
+
+    public Chair(String material, String color, double price, boolean hasArmrests) {
+        super(material, color, price);
+        this.hasArmrests = hasArmrests;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("Стул:");
+        System.out.println("Материал: " + material);
+        System.out.println("Цвет: " + color);
+        System.out.println("Цена: " + price + " руб.");
+        System.out.println("Подлокотники: " + (hasArmrests ? "Да" : "Нет"));
+        System.out.println("---------------------------");
+    }
+}
+
+public class Table extends Furniture {
+    private int numberOfLegs;
+
+    public Table(String material, String color, double price, int numberOfLegs) {
+        super(material, color, price);
+        this.numberOfLegs = numberOfLegs;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("Стол:");
+        System.out.println("Материал: " + material);
+        System.out.println("Цвет: " + color);
+        System.out.println("Цена: " + price + " руб.");
+        System.out.println("Количество ножек: " + numberOfLegs);
+        System.out.println("---------------------------");
+    }
+}
+
+public class Sofa extends Furniture {
+    private int numberOfSeats;
+
+    public Sofa(String material, String color, double price, int numberOfSeats) {
+        super(material, color, price);
+        this.numberOfSeats = numberOfSeats;
+    }
+
+    @Override
+    public void displayInfo() {
+        System.out.println("Диван:");
+        System.out.println("Материал: " + material);
+        System.out.println("Цвет: " + color);
+        System.out.println("Цена: " + price + " руб.");
+        System.out.println("Количество мест: " + numberOfSeats);
+        System.out.println("---------------------------");
+    }
+}
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class FurnitureShop {
+    private List<Furniture> furnitureList;
+
+    public FurnitureShop() {
+        furnitureList = new ArrayList<>();
+    }
+
+    // Добавление мебели в магазин
+    public void addFurniture(Furniture furniture) {
+        furnitureList.add(furniture);
+        System.out.println("Добавлен товар в магазин!");
+    }
+
+    // Просмотр всех товаров
+    public void showAllFurniture() {
+        if (furnitureList.isEmpty()) {
+            System.out.println("Магазин пуст.");
+            return;
+        }
+
+        System.out.println("Товары в магазине:");
+        for (Furniture item : furnitureList) {
+            item.displayInfo();
+        }
+    }
+
+    // Продажа товара
+    public void sellFurniture(int index) {
+        if (index < 0 || index >= furnitureList.size()) {
+            System.out.println("Некорректный номер товара.");
+            return;
+        }
+
+        Furniture sold = furnitureList.remove(index);
+        System.out.println("Продан товар за " + sold.getPrice() + " руб.");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        FurnitureShop shop = new FurnitureShop();
+
+        // Добавляем товары
+        shop.addFurniture(new Chair("Дерево", "Коричневый", 4500, true));
+        shop.addFurniture(new Table("Металл", "Черный", 9000, 4));
+        shop.addFurniture(new Sofa("Ткань", "Серый", 15000, 3));
+
+        System.out.println();
+
+        // Показываем все товары
+        shop.showAllFurniture();
+
+        System.out.println();
+
+        // Продаем второй товар (стол)
+        shop.sellFurniture(1);
+
+        System.out.println();
+
+        // Список после продажи
+        shop.showAllFurniture();
+    }
+}
