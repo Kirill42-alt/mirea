@@ -1,0 +1,67 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class CountryInfoApp extends JFrame {
+    private JComboBox<String> countryComboBox;
+    private JLabel infoLabel;
+
+    public CountryInfoApp() {
+        // Настройка окна
+        setTitle("Hello Swing");
+        setSize(400, 200);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null); // Центрируем окно на экране
+        setLayout(new FlowLayout());
+
+        // Список стран
+        String[] countries = {"Australia", "China", "England", "Russia"};
+
+        // Создаем JComboBox и добавляем в окно
+        countryComboBox = new JComboBox<>(countries);
+        add(countryComboBox);
+
+        // Label для вывода информации
+        infoLabel = new JLabel("Выберите страну из списка");
+        add(infoLabel);
+
+        // Обработчик события выбора элемента
+        countryComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String selectedCountry = (String) countryComboBox.getSelectedItem();
+                displayCountryInfo(selectedCountry);
+            }
+        });
+    }
+
+    private void displayCountryInfo(String country) {
+        String info;
+        switch (country) {
+            case "Australia":
+                info = "Australia is known for kangaroos and the Great Barrier Reef.";
+                break;
+            case "China":
+                info = "China is famous for its rich history and the Great Wall.";
+                break;
+            case "England":
+                info = "England is home to the royal family and Big Ben.";
+                break;
+            case "Russia":
+                info = "Russia is the largest country in the world by area.";
+                break;
+            default:
+                info = "No information available.";
+        }
+        infoLabel.setText(info);
+    }
+
+    public static void main(String[] args) {
+        // Запускаем приложение
+        SwingUtilities.invokeLater(() -> {
+            CountryInfoApp app = new CountryInfoApp();
+            app.setVisible(true);
+        });
+    }
+}
