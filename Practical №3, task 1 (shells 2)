@@ -1,0 +1,16 @@
+public class StringToDoubleExample {
+    public static void main(String[] args) {
+        String numberStr = "3.14159"; // строковое представление числа
+
+        try {
+            // Преобразование строки в double
+            double number = Double.parseDouble(numberStr);
+
+            // Вывод результата
+            System.out.println("Строка: " + numberStr);
+            System.out.println("Преобразованное значение double: " + number);
+        } catch (NumberFormatException e) {
+            System.out.println("Ошибка преобразования! Введите корректное число.");
+        }
+    }
+}
