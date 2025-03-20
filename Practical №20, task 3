@@ -1,0 +1,74 @@
+import java.io.Serializable;
+
+// Пример базового класса Animal
+class Animal {
+    private String name;
+
+    public Animal(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+}
+
+// Класс, удовлетворяющий ограничениям для V
+class Dog extends Animal implements Serializable {
+    public Dog(String name) {
+        super(name);
+    }
+}
+
+// Обобщённый класс с ограничениями
+public class MyClass<T extends Comparable<T>, V extends Animal & Serializable, K> {
+    private T first;
+    private V second;
+    private K third;
+
+    public MyClass(T first, V second, K third) {
+        this.first = first;
+        this.second = second;
+        this.third = third;
+    }
+
+    public T getFirst() {
+        return first;
+    }
+
+    public V getSecond() {
+        return second;
+    }
+
+    public K getThird() {
+        return third;
+    }
+
+    public void printClassNames() {
+        System.out.println("First: " + first.getClass().getName());
+        System.out.println("Second: " + second.getClass().getName());
+        System.out.println("Third: " + third.getClass().getName());
+    }
+
+    public static void main(String[] args) {
+        // Integer реализует Comparable<Integer>
+        Integer number = 42;
+
+        // Dog наследуется от Animal и реализует Serializable
+        Dog dog = new Dog("Барон");
+
+        // Строка без ограничений (K)
+        String description = "Описание";
+
+        // Создаём объект с типами, соответствующими ограничениям
+        MyClass<Integer, Dog, String> obj = new MyClass<>(number, dog, description);
+
+        // Выводим значения
+        System.out.println("First value: " + obj.getFirst());
+        System.out.println("Second value: " + obj.getSecond().getName());
+        System.out.println("Third value: " + obj.getThird());
+
+        // Выводим имена классов
+        obj.printClassNames();
+    }
+}
