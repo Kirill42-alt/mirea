@@ -1,9 +1,9 @@
 public class Student {
-    private String firstName;
-    private String lastName;
-    private String major;
-    private int year;
-    private String group;
+    private String firstName; // имя
+    private String lastName; // фамилия
+    private String major; // специальность
+    private int year; // курс
+    private String group; // группа
 
     // Конструктор
     public Student(String firstName, String lastName, String major, int year, String group) {
@@ -14,7 +14,7 @@ public class Student {
         this.group = group;
     }
 
-    // Геттеры
+    // Геттеры (методы для чтения значений полей)
     public String getFirstName() {
         return firstName;
     }
@@ -35,7 +35,7 @@ public class Student {
         return group;
     }
 
-    // Сеттеры
+    // Сеттеры (методы для изменения значений полей)
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
