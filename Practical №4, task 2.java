@@ -1,0 +1,145 @@
+// Перечисление размеров одежды
+enum Size {
+    XXS(32) {
+        @Override
+        public String getDescription() {
+            return "Детский размер";
+        }
+    },
+    XS(34), S(36), M(38), L(40);
+
+    private final int euroSize;
+
+    Size(int euroSize) {
+        this.euroSize = euroSize;
+    }
+
+    public int getEuroSize() {
+        return euroSize;
+    }
+
+    public String getDescription() {
+        return "Взрослый размер";
+    }
+}
+
+// Интерфейсы для мужской и женской одежды
+interface MenClothing {
+    void dressMan();
+}
+
+interface WomenClothing {
+    void dressWomen();
+}
+
+// Абстрактный класс одежды
+abstract class Clothes {
+    protected Size size;
+    protected double price;
+    protected String color;
+
+    public Clothes(Size size, double price, String color) {
+        this.size = size;
+        this.price = price;
+        this.color = color;
+    }
+
+    @Override
+    public String toString() {
+        return "Размер: " + size + " (EU: " + size.getEuroSize() + "), Цвет: " + color + ", Цена: " + price;
+    }
+}
+
+// Классы одежды
+class TShirt extends Clothes implements MenClothing, WomenClothing {
+    public TShirt(Size size, double price, String color) {
+        super(size, price, color);
+    }
+
+    @Override
+    public void dressMan() {
+        System.out.println("Мужская футболка: " + this);
+    }
+
+    @Override
+    public void dressWomen() {
+        System.out.println("Женская футболка: " + this);
+    }
+}
+
+class Pants extends Clothes implements MenClothing, WomenClothing {
+    public Pants(Size size, double price, String color) {
+        super(size, price, color);
+    }
+
+    @Override
+    public void dressMan() {
+        System.out.println("Мужские штаны: " + this);
+    }
+
+    @Override
+    public void dressWomen() {
+        System.out.println("Женские штаны: " + this);
+    }
+}
+
+class Skirt extends Clothes implements WomenClothing {
+    public Skirt(Size size, double price, String color) {
+        super(size, price, color);
+    }
+
+    @Override
+    public void dressWomen() {
+        System.out.println("Женская юбка: " + this);
+    }
+}
+
+class Tie extends Clothes implements MenClothing {
+    public Tie(Size size, double price, String color) {
+        super(size, price, color);
+    }
+
+    @Override
+    public void dressMan() {
+        System.out.println("Мужской галстук: " + this);
+    }
+}
+
+// Ателье с методами для мужчин и женщин
+class Atelier {
+    public void dressWomen(Clothes[] clothes) {
+        System.out.println("Женская одежда:");
+        for (Clothes c : clothes) {
+            if (c instanceof WomenClothing) {
+                ((WomenClothing) c).dressWomen();
+            }
+        }
+    }
+
+    public void dressMan(Clothes[] clothes) {
+        System.out.println("Мужская одежда:");
+        for (Clothes c : clothes) {
+            if (c instanceof MenClothing) {
+                ((MenClothing) c).dressMan();
+            }
+        }
+    }
+}
+
+// Тестирование
+// Объявление публичного класса
+public class Main {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Clothes[] clothes = {
+            new TShirt(Size.M, 19.99, "Красный"),
+            new Pants(Size.L, 39.99, "Синий"),
+            new Skirt(Size.S, 29.99, "Желтый"),
+            new Tie(Size.XS, 14.99, "Черный")
+        };
+        
+        Atelier atelier = new Atelier();
+        atelier.dressWomen(clothes);
+        atelier.dressMan(clothes);
+    }
+}

@@ -1,0 +1,104 @@
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+// Объявление публичного класса
+public class Student {
+    private String firstName;
+    private String lastName;
+    private String major;
+    private int year;
+    private String group;
+    private Date birthDate;
+
+    // Конструктор
+    public Student(String firstName, String lastName, String major, int year, String group, Date birthDate) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.major = major;
+        this.year = year;
+        this.group = group;
+        this.birthDate = birthDate;
+    }
+
+    // Геттеры
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public String getMajor() {
+        return major;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public Date getBirthDate() {
+        return birthDate;
+    }
+
+    // Сеттеры
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setMajor(String major) {
+        this.major = major;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
+
+    // Метод для форматированного вывода даты рождения
+    public String getFormattedBirthDate(String format) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        return dateFormat.format(birthDate);
+    }
+
+    @Override
+    public String toString() {
+        return "Student { " +
+                "Имя: '" + firstName + '\'' +
+                ", Фамилия: '" + lastName + '\'' +
+                ", Специальность: '" + major + '\'' +
+                ", Курс: " + year +
+                ", Группа: '" + group + '\'' +
+                ", Дата рождения: " + getFormattedBirthDate("dd-MM-yyyy") +
+                " }";
+    }
+
+    // Тестовый класс
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Date birthDate = new Date(95, 4, 15); // 15 мая 1995 года (устаревший формат)
+        Student student = new Student("Иван", "Петров", "Информатика", 3, "ИВТ-21", birthDate);
+        
+        System.out.println(student);
+        
+        // Пример разных форматов даты
+        System.out.println("Короткий формат: " + student.getFormattedBirthDate("dd/MM/yy"));
+        System.out.println("Средний формат: " + student.getFormattedBirthDate("dd MMM yyyy"));
+        System.out.println("Полный формат: " + student.getFormattedBirthDate("EEEE, d MMMM yyyy"));
+    }
+}

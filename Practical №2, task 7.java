@@ -1,0 +1,136 @@
+import java.util.Arrays;
+
+// Класс, описывающий книгу
+class Book {
+    private String title;
+    private String author;
+    private int year;
+
+    // Конструктор
+    public Book(String title, String author, int year) {
+        this.title = title;
+        this.author = author;
+        this.year = year;
+    }
+
+    // Методы доступа (геттеры и сеттеры)
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    @Override
+    public String toString() {
+        return "Книга: " + title + ", Автор: " + author + ", Год: " + year;
+    }
+}
+
+// Класс Книжная полка
+class Bookshelf {
+    private Book[] books;
+    private int count;
+
+    // Конструктор
+    public Bookshelf(int capacity) {
+        books = new Book[capacity];
+        count = 0;
+    }
+
+    // Метод для добавления книги
+    public void addBook(Book book) {
+        if (count < books.length) {
+            books[count] = book;
+            count++;
+        } else {
+            System.out.println("Книжная полка заполнена!");
+        }
+    }
+
+    // Метод для получения самой старой книги
+    public Book getOldestBook() {
+        if (count == 0) return null;
+        Book oldest = books[0];
+// Цикл для прохода по элементам массива
+        for (int i = 1; i < count; i++) {
+            if (books[i].getYear() < oldest.getYear()) {
+                oldest = books[i];
+            }
+        }
+        return oldest;
+    }
+
+    // Метод для получения самой новой книги
+    public Book getNewestBook() {
+        if (count == 0) return null;
+        Book newest = books[0];
+// Цикл для прохода по элементам массива
+        for (int i = 1; i < count; i++) {
+            if (books[i].getYear() > newest.getYear()) {
+                newest = books[i];
+            }
+        }
+        return newest;
+    }
+
+    // Метод сортировки книг по году издания
+    public void sortBooksByYear() {
+        Arrays.sort(books, 0, count, (b1, b2) -> Integer.compare(b1.getYear(), b2.getYear()));
+    }
+
+    // Метод для вывода всех книг
+    public void displayBooks() {
+// Цикл для прохода по элементам массива
+        for (int i = 0; i < count; i++) {
+            System.out.println(books[i]);
+        }
+    }
+}
+
+// Класс для тестирования
+// Объявление публичного класса
+public class BookTest {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        // Создание книжной полки
+        Bookshelf shelf = new Bookshelf(5);
+
+        // Добавление книг
+        shelf.addBook(new Book("1984", "Джордж Оруэлл", 1949));
+        shelf.addBook(new Book("Война и мир", "Лев Толстой", 1869));
+        shelf.addBook(new Book("Гарри Поттер", "Дж. К. Роулинг", 1997));
+        shelf.addBook(new Book("Преступление и наказание", "Ф. Достоевский", 1866));
+        shelf.addBook(new Book("Мастер и Маргарита", "Михаил Булгаков", 1967));
+
+        // Вывод всех книг
+        System.out.println("Все книги на полке:");
+        shelf.displayBooks();
+
+        // Поиск самой старой и самой новой книги
+        System.out.println("\nСамая старая книга: " + shelf.getOldestBook());
+        System.out.println("Самая новая книга: " + shelf.getNewestBook());
+
+        // Сортировка книг по году издания
+        shelf.sortBooksByYear();
+        System.out.println("\nКниги после сортировки по году издания:");
+        shelf.displayBooks();
+    }
+}

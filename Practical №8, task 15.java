@@ -1,0 +1,22 @@
+// Объявление публичного класса
+public class Main {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        int N = 12345;
+        printDigitsInReverse(N);
+    }
+
+    public static void printDigitsInReverse(int N) {
+        // Базовый случай: если число меньше 10, просто выводим его
+        if (N < 10) {
+            System.out.print(N);
+            return;
+        }
+
+        // Выводим последнюю цифру числа
+        System.out.print(N % 10 + " ");
+        
+        // Рекурсивно вызываем функцию для оставшейся части числа
+        printDigitsInReverse(N / 10);
+    }
+}

@@ -1,0 +1,24 @@
+// Объявление публичного класса
+public class DoubleConversionExample {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        // Исходный объект Double
+        Double doubleObject = 123.456;
+
+        // Преобразование к примитивным типам
+        double primitiveDouble = doubleObject.doubleValue();
+        float primitiveFloat = doubleObject.floatValue();
+        long primitiveLong = doubleObject.longValue();
+        int primitiveInt = doubleObject.intValue();
+        short primitiveShort = doubleObject.shortValue();
+        byte primitiveByte = doubleObject.byteValue();
+
+        // Вывод результатов
+        System.out.println("Double (примитив): " + primitiveDouble);
+        System.out.println("Float: " + primitiveFloat);
+        System.out.println("Long: " + primitiveLong);
+        System.out.println("Int: " + primitiveInt);
+        System.out.println("Short: " + primitiveShort);
+        System.out.println("Byte: " + primitiveByte);
+    }
+}

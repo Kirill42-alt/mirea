@@ -1,0 +1,117 @@
+import java.util.*;
+
+// Класс Товар
+class Product {
+    private String name;
+    private double priceUSD; // цена в долларах
+
+    public Product(String name, double priceUSD) {
+        this.name = name;
+        this.priceUSD = priceUSD;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPriceUSD() {
+        return priceUSD;
+    }
+}
+
+// Конвертер валют
+class CurrencyConverter {
+    private Map<String, Double> exchangeRates = new HashMap<>();
+
+    public CurrencyConverter() {
+        exchangeRates.put("USD", 1.0);
+        exchangeRates.put("EUR", 0.92);
+        exchangeRates.put("RUB", 91.5);
+        exchangeRates.put("JPY", 151.2);
+    }
+
+    public double convert(String fromCurrency, String toCurrency, double amount) {
+        fromCurrency = fromCurrency.toUpperCase();
+        toCurrency = toCurrency.toUpperCase();
+
+        if (!exchangeRates.containsKey(fromCurrency) || !exchangeRates.containsKey(toCurrency)) {
+            throw new IllegalArgumentException("Валюта не найдена.");
+        }
+
+        double baseAmount = amount / exchangeRates.get(fromCurrency);
+        return baseAmount * exchangeRates.get(toCurrency);
+    }
+
+    public Set<String> getSupportedCurrencies() {
+        return exchangeRates.keySet();
+    }
+}
+
+// Основной класс Интернет-Магазина
+// Объявление публичного класса
+public class ShopApp {
+    private static List<Product> products = new ArrayList<>();
+    private static CurrencyConverter converter = new CurrencyConverter();
+
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        initProducts();
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("=== Добро пожаловать в Интернет-Магазин ===");
+
+        while (true) {
+            showProducts();
+            System.out.print("Выберите товар по номеру (или 0 для выхода): ");
+            int productChoice = scanner.nextInt();
+
+            if (productChoice == 0) {
+                System.out.println("Спасибо за посещение нашего магазина!");
+                break;
+            }
+
+            if (productChoice < 1 || productChoice > products.size()) {
+                System.out.println("Неверный выбор товара!");
+                continue;
+            }
+
+            Product selectedProduct = products.get(productChoice - 1);
+
+            System.out.println("\nДоступные валюты: " + converter.getSupportedCurrencies());
+            System.out.print("Выберите валюту для оплаты: ");
+            String currency = scanner.next();
+
+            try {
+                double priceInSelectedCurrency = converter.convert("USD", currency, selectedProduct.getPriceUSD());
+                System.out.printf("Товар: %s\nЦена: %.2f %s\n", selectedProduct.getName(), priceInSelectedCurrency, currency.toUpperCase());
+            } catch (IllegalArgumentException e) {
+                System.out.println("Ошибка: " + e.getMessage());
+            }
+
+            System.out.print("Хотите продолжить покупки? (yes/no): ");
+            String continueShopping = scanner.next();
+            if (!continueShopping.equalsIgnoreCase("yes")) {
+                System.out.println("Спасибо за покупки!");
+                break;
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static void initProducts() {
+        products.add(new Product("Смартфон", 500));
+        products.add(new Product("Ноутбук", 1000));
+        products.add(new Product("Наушники", 100));
+        products.add(new Product("Умные часы", 200));
+    }
+
+    private static void showProducts() {
+        System.out.println("\n=== Каталог товаров ===");
+// Цикл для прохода по элементам массива
+        for (int i = 0; i < products.size(); i++) {
+            Product p = products.get(i);
+            System.out.printf("%d. %s - %.2f USD\n", i + 1, p.getName(), p.getPriceUSD());
+        }
+    }
+}

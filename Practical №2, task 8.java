@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+// Объявление публичного класса
+public class ReverseStringArray {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        // Создание объекта Scanner для считывания ввода пользователя
+        Scanner scanner = new Scanner(System.in);
+        
+        // Ввод размера массива
+        System.out.print("Введите размер массива: ");
+        int size = scanner.nextInt();
+        scanner.nextLine(); // Очистка буфера после nextInt()
+        
+        // Создаём массив строк указанного размера
+        String[] words = new String[size];
+        
+        // Ввод элементов массива пользователем
+        System.out.println("Введите элементы массива:");
+// Цикл для прохода по элементам массива
+        for (int i = 0; i < size; i++) {
+            words[i] = scanner.nextLine();
+        }
+        
+        // Обмен элементов массива для разворота
+// Цикл для прохода по элементам массива
+        for (int i = 0; i < size / 2; i++) {
+            String temp = words[i]; // Временная переменная для хранения значения
+            words[i] = words[size - 1 - i]; // Замена значений
+            words[size - 1 - i] = temp; // Присваивание значения из временной переменной
+        }
+        
+        // Вывод изменённого массива
+        System.out.println("Массив после разворота:");
+        for (String word : words) {
+            System.out.println(word);
+        }
+    }
+}

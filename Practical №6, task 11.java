@@ -1,0 +1,31 @@
+interface Convertable {
+    double convert(double value);
+}
+
+class CelsiusToKelvin implements Convertable {
+    @Override
+    public double convert(double value) {
+        return value + 273.15;
+    }
+}
+
+class CelsiusToFahrenheit implements Convertable {
+    @Override
+    public double convert(double value) {
+        return (value * 9/5) + 32;
+    }
+}
+
+// Объявление публичного класса
+public class TemperatureConverter {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        double celsius = 25.0;
+
+        Convertable toKelvin = new CelsiusToKelvin();
+        Convertable toFahrenheit = new CelsiusToFahrenheit();
+
+        System.out.println("Температура в Кельвинах: " + toKelvin.convert(celsius));
+        System.out.println("Температура в Фаренгейтах: " + toFahrenheit.convert(celsius));
+    }
+}

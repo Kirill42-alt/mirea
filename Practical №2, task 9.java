@@ -1,0 +1,37 @@
+import java.util.*;
+
+// Объявление публичного класса
+public class Poker {
+    private static final String[] SUITS = {"♠", "♣", "♦", "♥"};
+    private static final String[] RANKS = {"2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"};
+    
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество игроков: ");
+        int players = scanner.nextInt();
+        scanner.close();
+
+        if (players < 1 || players > 10) {
+            System.out.println("Ошибка: число игроков должно быть от 1 до 10.");
+            return;
+        }
+
+        List<String> deck = new ArrayList<>();
+        for (String suit : SUITS) {
+            for (String rank : RANKS) {
+                deck.add(rank + suit);
+            }
+        }
+        Collections.shuffle(deck);
+
+// Цикл для прохода по элементам массива
+        for (int i = 0; i < players; i++) {
+            System.out.println("Игрок " + (i + 1) + ":");
+            for (int j = 0; j < 5; j++) {
+                System.out.println(deck.remove(0));
+            }
+            System.out.println();
+        }
+    }
+}

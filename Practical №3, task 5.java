@@ -1,0 +1,52 @@
+import java.util.ArrayList;
+import java.util.Random;
+import java.util.Scanner;
+
+// Объявление публичного класса
+public class EvenNumbersArray {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Random random = new Random();
+        int n;
+
+        // Ввод размера массива с проверкой на корректность
+        do {
+            System.out.print("Введите натуральное число больше 0: ");
+            while (!scanner.hasNextInt()) {
+                System.out.println("Ошибка! Введите натуральное число больше 0.");
+                scanner.next(); // Очистка буфера
+            }
+            n = scanner.nextInt();
+        } while (n <= 0);
+
+        // Создание и заполнение массива случайными числами из диапазона [0; n]
+        int[] numbers = new int[n];
+        System.out.print("Исходный массив: ");
+// Цикл для прохода по элементам массива
+        for (int i = 0; i < n; i++) {
+            numbers[i] = random.nextInt(n + 1);
+            System.out.print(numbers[i] + " ");
+        }
+        System.out.println();
+
+        // Создание массива четных элементов
+        ArrayList<Integer> evenNumbers = new ArrayList<>();
+        for (int num : numbers) {
+            if (num % 2 == 0) {
+                evenNumbers.add(num);
+            }
+        }
+
+        // Вывод массива четных элементов, если они есть
+        if (evenNumbers.isEmpty()) {
+            System.out.println("В массиве нет четных чисел.");
+        } else {
+            System.out.print("Массив четных чисел: ");
+            for (int even : evenNumbers) {
+                System.out.print(even + " ");
+            }
+            System.out.println();
+        }
+    }
+}

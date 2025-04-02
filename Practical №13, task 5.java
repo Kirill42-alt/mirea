@@ -1,0 +1,53 @@
+// Объявление публичного класса
+public class PhoneNumberFormatter {
+    private String formattedNumber;
+
+    // Конструктор, принимает номер телефона в одном из двух форматов
+    public PhoneNumberFormatter(String number) {
+        this.formattedNumber = formatNumber(number);
+    }
+
+    // Метод для форматирования номера
+    private String formatNumber(String number) {
+        String cleanedNumber;
+
+        if (number.startsWith("+")) {
+            cleanedNumber = number.substring(1); // Убираем "+"
+        } else if (number.startsWith("8")) {
+            cleanedNumber = "7" + number.substring(1); // Заменяем 8 на 7 для России
+        } else {
+            return "Некорректный формат номера";
+        }
+
+        // Разделение кода страны и номера
+        String countryCode = cleanedNumber.substring(0, cleanedNumber.length() - 10);
+        String mainNumber = cleanedNumber.substring(cleanedNumber.length() - 10);
+
+        return "+" + countryCode + " " +
+                mainNumber.substring(0, 3) + "-" +
+                mainNumber.substring(3, 6) + "-" +
+                mainNumber.substring(6);
+    }
+
+    @Override
+    public String toString() {
+        return formattedNumber;
+    }
+
+    // Тестовый класс
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        String[] testNumbers = {
+            "+79175655655",
+            "+104289652211",
+            "89175655655"
+        };
+
+        for (String number : testNumbers) {
+            PhoneNumberFormatter formatted = new PhoneNumberFormatter(number);
+            System.out.println("Исходный номер: " + number);
+            System.out.println("Форматированный номер: " + formatted);
+            System.out.println();
+        }
+    }
+}

@@ -1,0 +1,67 @@
+import java.util.Stack;
+
+class UndoableStringBuilder {
+    private StringBuilder sb;
+    private Stack<Runnable> history;
+
+    public UndoableStringBuilder() {
+        sb = new StringBuilder();
+        history = new Stack<>();
+    }
+
+    public UndoableStringBuilder append(String str) {
+        sb.append(str);
+        history.push(() -> sb.delete(sb.length() - str.length(), sb.length()));
+        return this;
+    }
+
+    public UndoableStringBuilder insert(int offset, String str) {
+        sb.insert(offset, str);
+        history.push(() -> sb.delete(offset, offset + str.length()));
+        return this;
+    }
+
+    public UndoableStringBuilder delete(int start, int end) {
+        String deleted = sb.substring(start, end);
+        sb.delete(start, end);
+        history.push(() -> sb.insert(start, deleted));
+        return this;
+    }
+
+    public UndoableStringBuilder replace(int start, int end, String str) {
+        String replaced = sb.substring(start, end);
+        sb.replace(start, end, str);
+        history.push(() -> sb.replace(start, start + str.length(), replaced));
+        return this;
+    }
+
+    public void undo() {
+        if (!history.isEmpty()) {
+            history.pop().run();
+        }
+    }
+
+    @Override
+    public String toString() {
+        return sb.toString();
+    }
+}
+
+// Объявление публичного класса
+public class TestUndoableStringBuilder {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        UndoableStringBuilder usb = new UndoableStringBuilder();
+        usb.append("Hello").append(" World");
+        System.out.println("После добавления: " + usb);
+        
+        usb.undo();
+        System.out.println("После undo: " + usb);
+        
+        usb.insert(5, "!!!");
+        System.out.println("После вставки: " + usb);
+        
+        usb.undo();
+        System.out.println("После undo: " + usb);
+    }
+}

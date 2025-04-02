@@ -1,0 +1,83 @@
+class Phone {
+    private String number;
+    private String model;
+    private double weight;
+
+    // Конструктор без параметров
+    public Phone() {
+        this("Unknown", "Unknown", 0.0);
+    }
+
+    // Конструктор с двумя параметрами
+    public Phone(String number, String model) {
+        this(number, model, 0.0);
+    }
+
+    // Конструктор с тремя параметрами
+    public Phone(String number, String model, double weight) {
+        this.number = number;
+        this.model = model;
+        this.weight = weight;
+    }
+
+    // Метод для приема звонка
+    public void receiveCall(String name) {
+        System.out.println("Звонит " + name);
+    }
+
+    // Перегруженный метод receiveCall
+    public void receiveCall(String name, String callerNumber) {
+        System.out.println("Звонит " + name + " с номера " + callerNumber);
+    }
+
+    // Метод для получения номера телефона
+    public String getNumber() {
+        return number;
+    }
+
+    // Метод для отправки сообщений
+    public void sendMessage(String... numbers) {
+        System.out.println("Отправка сообщения на номера:");
+        for (String num : numbers) {
+            System.out.println(num);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Телефон: " + model + " (номер: " + number + ", вес: " + weight + " г)";
+    }
+}
+
+// Объявление публичного класса
+public class Main {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        // Создание трех экземпляров Phone
+        Phone phone1 = new Phone("123-456-789", "Samsung", 150.5);
+        Phone phone2 = new Phone("987-654-321", "iPhone", 140.3);
+        Phone phone3 = new Phone("555-123-456", "Nokia", 120.0);
+
+        // Вывод информации о телефонах
+        System.out.println(phone1);
+        System.out.println(phone2);
+        System.out.println(phone3);
+
+        // Вызов receiveCall
+        phone1.receiveCall("Алексей");
+        phone2.receiveCall("Мария");
+        phone3.receiveCall("Дмитрий");
+
+        // Вызов getNumber
+        System.out.println("Номер телефона 1: " + phone1.getNumber());
+        System.out.println("Номер телефона 2: " + phone2.getNumber());
+        System.out.println("Номер телефона 3: " + phone3.getNumber());
+
+        // Вызов перегруженного receiveCall
+        phone1.receiveCall("Алексей", "111-222-333");
+        phone2.receiveCall("Мария", "444-555-666");
+
+        // Вызов sendMessage
+        phone1.sendMessage("123-456-789", "987-654-321", "555-123-456");
+    }
+}

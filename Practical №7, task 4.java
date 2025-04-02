@@ -1,0 +1,43 @@
+// Интерфейс MathCalculable
+interface MathCalculable {
+    double PI = 3.141592653589793;
+    
+    double power(double base, int exponent);
+    double absComplex(double real, double imag);
+}
+
+// Класс MathFunc, реализующий MathCalculable
+class MathFunc implements MathCalculable {
+    @Override
+    public double power(double base, int exponent) {
+        return Math.pow(base, exponent);
+    }
+
+    @Override
+    public double absComplex(double real, double imag) {
+        return Math.sqrt(real * real + imag * imag);
+    }
+
+    public double circleLength(double radius) {
+        return 2 * PI * radius;
+    }
+}
+
+// Тестирование
+// Объявление публичного класса
+public class Main {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        MathCalculable mc1 = new MathFunc(); // Правильно
+        
+        // Возведение в степень
+        System.out.println("2^3 = " + mc1.power(2, 3));
+        
+        // Модуль комплексного числа
+        System.out.println("|3 + 4i| = " + mc1.absComplex(3, 4));
+        
+        // Вычисление длины окружности
+        MathFunc mathFunc = new MathFunc();
+        System.out.println("Длина окружности радиусом 5: " + mathFunc.circleLength(5));
+    }
+}

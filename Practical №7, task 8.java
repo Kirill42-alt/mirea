@@ -1,0 +1,58 @@
+// Интерфейс Printable
+interface Printable {
+    void print();
+}
+
+// Класс Magazine, реализующий Printable
+class Magazine implements Printable {
+    private String title;
+
+    public Magazine(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public void print() {
+        System.out.println("Журнал: " + title);
+    }
+
+    // Статический метод для вывода только журналов
+    public static void printMagazines(Printable[] printable) {
+        for (Printable item : printable) {
+            if (item instanceof Magazine) {
+                item.print();
+            }
+        }
+    }
+}
+
+// Класс Book, реализующий Printable
+class Book implements Printable {
+    private String title;
+
+    public Book(String title) {
+        this.title = title;
+    }
+
+    @Override
+    public void print() {
+        System.out.println("Книга: " + title);
+    }
+}
+
+// Тестирование
+// Объявление публичного класса
+public class Main {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Printable[] printables = {
+            new Book("Война и мир"),
+            new Magazine("National Geographic"),
+            new Book("1984"),
+            new Magazine("Forbes")
+        };
+        
+        System.out.println("Вывод всех журналов:");
+        Magazine.printMagazines(printables);
+    }
+}

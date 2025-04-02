@@ -1,0 +1,37 @@
+// Объявление публичного класса
+public class StringManipulator {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        String text = "I like Java!!!";
+        processString(text);
+    }
+
+    public static void processString(String input) {
+        // 2. Вывести последний символ строки
+        System.out.println("Последний символ: " + input.charAt(input.length() - 1));
+        
+        // 3. Проверить, заканчивается ли строка "!!!"
+        System.out.println("Заканчивается на '!!!': " + input.endsWith("!!!"));
+        
+        // 4. Проверить, начинается ли строка "I like"
+        System.out.println("Начинается с 'I like': " + input.startsWith("I like"));
+        
+        // 5. Проверить, содержит ли строка "Java"
+        System.out.println("Содержит 'Java': " + input.contains("Java"));
+        
+        // 6. Найти позицию подстроки "Java"
+        System.out.println("Позиция 'Java': " + input.indexOf("Java"));
+        
+        // 7. Заменить все 'а' на 'о'
+        System.out.println("Замена 'а' на 'о': " + input.replace('a', 'o'));
+        
+        // 8. Преобразовать в верхний регистр
+        System.out.println("В верхнем регистре: " + input.toUpperCase());
+        
+        // 9. Преобразовать в нижний регистр
+        System.out.println("В нижнем регистре: " + input.toLowerCase());
+        
+        // 10. Вырезать подстроку "Java"
+        System.out.println("Вырезанная подстрока: " + input.substring(input.indexOf("Java"), input.indexOf("Java") + 4));
+    }
+}

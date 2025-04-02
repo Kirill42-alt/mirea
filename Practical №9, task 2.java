@@ -1,0 +1,100 @@
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.Random;
+
+// Класс Student
+class Student {
+    private int iDNumber;
+    private String name;
+    private double GPA;
+
+    // Конструктор
+    public Student(int iDNumber, String name, double GPA) {
+        this.iDNumber = iDNumber;
+        this.name = name;
+        this.GPA = GPA;
+    }
+
+    // Геттер для GPA
+    public double getGPA() {
+        return GPA;
+    }
+
+    @Override
+    public String toString() {
+        return "Student { ID: " + iDNumber + ", Name: " + name + ", GPA: " + GPA + " }";
+    }
+}
+
+// Класс для сортировки студентов по GPA (по убыванию)
+class SortingStudentsByGPA implements Comparator<Student> {
+    @Override
+    public int compare(Student s1, Student s2) {
+        return Double.compare(s2.getGPA(), s1.getGPA()); // По убыванию
+    }
+
+    // Метод быстрой сортировки
+    public void quickSort(Student[] array, int low, int high) {
+        if (low < high) {
+            int pi = partition(array, low, high);
+            quickSort(array, low, pi - 1);
+            quickSort(array, pi + 1, high);
+        }
+    }
+
+    // Метод разбиения для быстрой сортировки
+    private int partition(Student[] array, int low, int high) {
+        Student pivot = array[high];
+        int i = low - 1;
+        for (int j = low; j < high; j++) {
+            if (compare(array[j], pivot) < 0) {
+                i++;
+                swap(array, i, j);
+            }
+        }
+        swap(array, i + 1, high);
+        return i + 1;
+    }
+
+    // Метод для обмена элементов массива
+    private void swap(Student[] array, int i, int j) {
+        Student temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
+
+// Класс для тестирования
+// Объявление публичного класса
+public class StudentTest {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Random random = new Random();
+        Student[] students = new Student[5];
+
+        // Заполнение массива случайными студентами
+// Цикл для прохода по элементам массива
+        for (int i = 0; i < students.length; i++) {
+            students[i] = new Student(random.nextInt(100) + 1, "Student" + (i + 1), random.nextDouble() * 4.0);
+        }
+
+        // Вывод исходного массива
+        System.out.println("Исходный массив студентов:");
+        printArray(students);
+
+        // Сортировка по GPA (по убыванию)
+        SortingStudentsByGPA sorter = new SortingStudentsByGPA();
+        sorter.quickSort(students, 0, students.length - 1);
+
+        // Вывод отсортированного массива
+        System.out.println("\nОтсортированный массив студентов (по убыванию GPA):");
+        printArray(students);
+    }
+
+    // Метод вывода массива
+    public static void printArray(Student[] array) {
+        for (Student student : array) {
+            System.out.println(student);
+        }
+    }
+}

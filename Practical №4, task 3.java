@@ -1,0 +1,211 @@
+// Объявление публичного класса
+public class User {
+    private String login;
+    private String password;
+
+    public User(String login, String password) {
+        this.login = login;
+        this.password = password;
+    }
+
+    public boolean authenticate(String inputLogin, String inputPassword) {
+        return login.equals(inputLogin) && password.equals(inputPassword);
+    }
+}
+
+public enum Catalog {
+    ELECTRONICS,
+    BOOKS,
+    CLOTHING
+}
+
+// Объявление публичного класса
+public class Product {
+    private String name;
+    private double price;
+    private Catalog catalog;
+
+    public Product(String name, double price, Catalog catalog) {
+        this.name = name;
+        this.price = price;
+        this.catalog = catalog;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Catalog getCatalog() {
+        return catalog;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s - %.2f$", name, price);
+    }
+}
+
+import java.util.ArrayList;
+import java.util.List;
+
+// Объявление публичного класса
+public class Cart {
+    private List<Product> products = new ArrayList<>();
+
+    public void addProduct(Product product) {
+        products.add(product);
+        System.out.println(product.getName() + " добавлен в корзину.");
+    }
+
+    public void viewCart() {
+        if (products.isEmpty()) {
+            System.out.println("Корзина пуста.");
+        } else {
+            System.out.println("Товары в корзине:");
+// Цикл для прохода по элементам массива
+            for (int i = 0; i < products.size(); i++) {
+                System.out.println((i + 1) + ". " + products.get(i));
+            }
+        }
+    }
+
+    public void purchase() {
+        if (products.isEmpty()) {
+            System.out.println("Корзина пуста. Добавьте товары перед покупкой.");
+        } else {
+            double total = 0;
+            System.out.println("Вы купили:");
+            for (Product product : products) {
+                System.out.println(product);
+                total += product.getPrice();
+            }
+            System.out.printf("Общая сумма покупки: %.2f$\n", total);
+            products.clear(); // Очищаем корзину после покупки
+        }
+    }
+
+    public boolean isEmpty() {
+        return products.isEmpty();
+    }
+}
+
+import java.util.*;
+
+// Объявление публичного класса
+public class StoreApp {
+    private static Scanner scanner = new Scanner(System.in);
+    private static List<Product> products = new ArrayList<>();
+    private static User user;
+    private static Cart cart = new Cart();
+
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        initProducts();
+        initUser();
+
+        if (!login()) {
+            System.out.println("Аутентификация не удалась. Завершение работы.");
+            return;
+        }
+
+        System.out.println("Добро пожаловать в Интернет-магазин!");
+
+        boolean exit = false;
+        while (!exit) {
+            printMenu();
+            int choice = scanner.nextInt();
+            scanner.nextLine(); // consume newline
+            switch (choice) {
+                case 1 -> viewCatalogs();
+                case 2 -> viewProductsByCatalog();
+                case 3 -> addToCart();
+                case 4 -> cart.viewCart();
+                case 5 -> cart.purchase();
+                case 6 -> {
+                    System.out.println("Выход из магазина. До свидания!");
+                    exit = true;
+                }
+                default -> System.out.println("Некорректный выбор. Попробуйте снова.");
+            }
+        }
+    }
+
+    // Инициализация пользователя
+    private static void initUser() {
+        user = new User("admin", "1234");
+    }
+
+    // Инициализация товаров
+    private static void initProducts() {
+        products.add(new Product("Смартфон", 499.99, Catalog.ELECTRONICS));
+        products.add(new Product("Ноутбук", 899.99, Catalog.ELECTRONICS));
+        products.add(new Product("Книга 'Java для начинающих'", 29.99, Catalog.BOOKS));
+        products.add(new Product("Роман '1984'", 15.49, Catalog.BOOKS));
+        products.add(new Product("Футболка", 19.99, Catalog.CLOTHING));
+        products.add(new Product("Джинсы", 39.99, Catalog.CLOTHING));
+    }
+
+    // Аутентификация
+    private static boolean login() {
+        System.out.print("Введите логин: ");
+        String inputLogin = scanner.nextLine();
+        System.out.print("Введите пароль: ");
+        String inputPassword = scanner.nextLine();
+        return user.authenticate(inputLogin, inputPassword);
+    }
+
+    // Меню действий
+    private static void printMenu() {
+        System.out.println("\nВыберите действие:");
+        System.out.println("1. Просмотр списка каталогов");
+        System.out.println("2. Просмотр списка товаров каталога");
+        System.out.println("3. Добавить товар в корзину");
+        System.out.println("4. Просмотр корзины");
+        System.out.println("5. Покупка товаров из корзины");
+        System.out.println("6. Выход");
+        System.out.print("Ваш выбор: ");
+    }
+
+    // Просмотр доступных каталогов
+    private static void viewCatalogs() {
+        System.out.println("Каталоги товаров:");
+        for (Catalog catalog : Catalog.values()) {
+            System.out.println("- " + catalog);
+        }
+    }
+
+    // Просмотр товаров по каталогу
+    private static void viewProductsByCatalog() {
+        System.out.println("Введите название каталога (например, ELECTRONICS): ");
+        String catalogInput = scanner.nextLine().toUpperCase();
+        try {
+            Catalog selectedCatalog = Catalog.valueOf(catalogInput);
+            System.out.println("Товары в каталоге " + selectedCatalog + ":");
+            products.stream()
+                    .filter(p -> p.getCatalog() == selectedCatalog)
+                    .forEach(System.out::println);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Каталог не найден.");
+        }
+    }
+
+    // Добавление товара в корзину
+    private static void addToCart() {
+        System.out.println("Введите название товара, который хотите добавить в корзину: ");
+        String productName = scanner.nextLine();
+        Optional<Product> foundProduct = products.stream()
+                .filter(p -> p.getName().equalsIgnoreCase(productName))
+                .findFirst();
+
+        if (foundProduct.isPresent()) {
+            cart.addProduct(foundProduct.get());
+        } else {
+            System.out.println("Товар не найден.");
+        }
+    }
+}
+

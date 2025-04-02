@@ -1,0 +1,27 @@
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
+// Объявление публичного класса
+public class RegexValidator {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Регулярное выражение для проверки строки
+        String regex = "^abcdefghijklmnopqrstuv18340$";
+        Pattern pattern = Pattern.compile(regex);
+        
+        // Ввод строки пользователем
+        System.out.print("Введите строку для проверки: ");
+        String input = scanner.nextLine();
+        
+        // Проверка строки по регулярному выражению
+        if (pattern.matcher(input).matches()) {
+            System.out.println("Строка соответствует шаблону.");
+        } else {
+            System.out.println("Строка не соответствует шаблону.");
+        }
+        
+        scanner.close();
+    }
+}

@@ -1,0 +1,19 @@
+import java.util.Scanner;
+
+// Объявление публичного класса
+public class MaxSequence {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Максимальное значение: " + findMax(scanner));
+        scanner.close();
+    }
+
+    public static int findMax(Scanner scanner) {
+        int num = scanner.nextInt();
+        if (num == 0) {
+            return 0;
+        }
+        return Math.max(num, findMax(scanner));
+    }
+}

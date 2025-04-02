@@ -1,0 +1,92 @@
+import java.util.ArrayList;
+import java.util.List;
+
+// Интерфейс наблюдателя
+interface Observer {
+    void update(String newState);
+}
+
+// Класс StringBuilder с поддержкой наблюдателей
+class ObservableStringBuilder {
+    private StringBuilder sb;
+    private List<Observer> observers;
+
+    public ObservableStringBuilder() {
+        sb = new StringBuilder();
+        observers = new ArrayList<>();
+    }
+
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    private void notifyObservers() {
+        for (Observer observer : observers) {
+            observer.update(sb.toString());
+        }
+    }
+
+    public ObservableStringBuilder append(String str) {
+        sb.append(str);
+        notifyObservers();
+        return this;
+    }
+
+    public ObservableStringBuilder insert(int offset, String str) {
+        sb.insert(offset, str);
+        notifyObservers();
+        return this;
+    }
+
+    public ObservableStringBuilder delete(int start, int end) {
+        sb.delete(start, end);
+        notifyObservers();
+        return this;
+    }
+
+    public ObservableStringBuilder replace(int start, int end, String str) {
+        sb.replace(start, end, str);
+        notifyObservers();
+        return this;
+    }
+
+    @Override
+    public String toString() {
+        return sb.toString();
+    }
+}
+
+// Пример наблюдателя
+class StringObserver implements Observer {
+    private String name;
+
+    public StringObserver(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public void update(String newState) {
+        System.out.println(name + " получил обновление: " + newState);
+    }
+}
+
+// Объявление публичного класса
+public class TestObservableStringBuilder {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        ObservableStringBuilder osb = new ObservableStringBuilder();
+        Observer observer1 = new StringObserver("Observer 1");
+        Observer observer2 = new StringObserver("Observer 2");
+
+        osb.addObserver(observer1);
+        osb.addObserver(observer2);
+        
+        osb.append("Hello");
+        osb.append(" World");
+        osb.replace(6, 11, "Observer");
+    }
+}

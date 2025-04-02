@@ -1,0 +1,78 @@
+// Перечисление времен года
+public enum Season {
+
+    WINTER(-10),
+    SPRING(10),
+    SUMMER(25) {
+        @Override
+        public String getDescription() {
+            return "Теплое время года";
+        }
+    },
+    AUTUMN(5);
+
+    private final int averageTemperature; // Средняя температура для сезона
+
+    // Конструктор для установки температуры
+    Season(int averageTemperature) {
+        this.averageTemperature = averageTemperature;
+    }
+
+    // Геттер средней температуры
+    public int getAverageTemperature() {
+        return averageTemperature;
+    }
+
+    // Метод описания сезона
+    public String getDescription() {
+        return "Холодное время года";
+    }
+}
+
+// Основной класс
+// Объявление публичного класса
+public class Main {
+
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+
+        // 1) Любимое время года
+        Season favoriteSeason = Season.SUMMER;
+        System.out.println("Мое любимое время года: " + favoriteSeason);
+        System.out.println("Средняя температура: " + favoriteSeason.getAverageTemperature());
+        System.out.println("Описание: " + favoriteSeason.getDescription());
+
+        System.out.println("\n--- Проверка метода switch ---");
+        // 2) Метод с оператором switch
+        printSeasonInfo(favoriteSeason);
+
+        System.out.println("\n--- Все времена года ---");
+        // 6) Цикл по всем временам года
+        for (Season season : Season.values()) {
+            System.out.println("Время года: " + season);
+            System.out.println("Средняя температура: " + season.getAverageTemperature());
+            System.out.println("Описание: " + season.getDescription());
+            System.out.println("---------------------------");
+        }
+    }
+
+    // 2) Метод, принимающий переменную enum и использующий switch
+    public static void printSeasonInfo(Season season) {
+        switch (season) {
+            case SUMMER:
+                System.out.println("Я люблю лето!");
+                break;
+            case WINTER:
+                System.out.println("Я люблю зиму!");
+                break;
+            case SPRING:
+                System.out.println("Я люблю весну!");
+                break;
+            case AUTUMN:
+                System.out.println("Я люблю осень!");
+                break;
+            default:
+                System.out.println("Неизвестное время года!");
+        }
+    }
+}
