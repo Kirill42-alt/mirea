@@ -1,0 +1,41 @@
+// Класс демонстрации выбрасывания исключений
+// Объявление публичного класса
+public class ThrowsDemo {
+
+    /**
+     * Метод печатает сообщение, полученное из getDetails().
+     * Если getDetails() выбрасывает исключение, мы можем перехватить его на более высоком уровне.
+     */
+    public void printMessage(String key) {
+        String message = getDetails(key);
+        System.out.println(message);
+    }
+
+    /**
+     * Метод возвращает строку с деталями по ключу.
+     * Если ключ null — выбрасывает исключение NullPointerException.
+     */
+    public String getDetails(String key) {
+        if (key == null) {
+            throw new NullPointerException("null key in getDetails");
+        }
+        return "data for " + key;
+    }
+
+    /**
+     * Точка входа в приложение.
+     * Демонстрация вызова метода printMessage() с перехватом возможного исключения.
+     */
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        ThrowsDemo demo = new ThrowsDemo();
+
+        try {
+            demo.printMessage(null); // Передаем null → будет выброшено исключение
+        } catch (NullPointerException e) {
+            System.out.println("Обработка исключения в main: " + e.getMessage());
+        }
+
+        System.out.println("Программа продолжает работать дальше...");
+    }
+}

@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+// Объявление публичного класса
+public class ThrowsDemo {
+
+    /**
+     * Метод getKey() запрашивает ввод ключа у пользователя.
+     * В случае ошибки пользователь может ввести ключ повторно.
+     */
+    public void getKey() {
+        Scanner myScanner = new Scanner(System.in);
+
+        while (true) {
+            try {
+                System.out.print("Введите ключ: ");
+                String key = myScanner.next();
+                printDetails(key); // Если ошибка — перейдем к catch.
+                break; // Если всё успешно — выходим из цикла.
+            } catch (Exception e) {
+                System.out.println("Ошибка: " + e.getMessage());
+                System.out.println("Попробуйте снова!\n");
+            }
+        }
+
+        myScanner.close();
+    }
+
+    /**
+     * Метод printDetails() вызывает getDetails().
+     * Перебрасывает исключение в вызывающий код.
+     */
+    public void printDetails(String key) throws Exception {
+        String message = getDetails(key);
+        System.out.println(message);
+    }
+
+    /**
+     * Метод getDetails() проверяет ключ.
+     * Если ключ - пустая строка, выбрасывает Exception.
+     */
+    private String getDetails(String key) throws Exception {
+        if (key.equals("")) {
+            throw new Exception("Ключ не должен быть пустым!");
+        }
+        return "Данные для ключа: " + key;
+    }
+
+    /**
+     * Точка входа в приложение.
+     */
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        ThrowsDemo demo = new ThrowsDemo();
+
+        demo.getKey(); // Метод сам обрабатывает исключения
+
+        System.out.println("\nПрограмма завершена корректно.");
+    }
+}

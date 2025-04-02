@@ -1,0 +1,51 @@
+// Объявление публичного класса
+public class MyClass<T, V, K> {
+    // Объявление переменных обобщённых типов
+    private T first;
+    private V second;
+    private K third;
+
+    // Конструктор, принимающий параметры обобщённых типов
+    public MyClass(T first, V second, K third) {
+        this.first = first;
+        this.second = second;
+        this.third = third;
+    }
+
+    // Метод для получения первого значения
+    public T getFirst() {
+        return first;
+    }
+
+    // Метод для получения второго значения
+    public V getSecond() {
+        return second;
+    }
+
+    // Метод для получения третьего значения
+    public K getThird() {
+        return third;
+    }
+
+    // Метод, выводящий на консоль имена классов переменных
+    public void printClassNames() {
+        System.out.println("First: " + first.getClass().getName());
+        System.out.println("Second: " + second.getClass().getName());
+        System.out.println("Third: " + third.getClass().getName());
+    }
+
+    // Главный метод для запуска программы
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        // Создаём объект с разными типами данных
+        MyClass<Integer, String, Double> obj = new MyClass<>(42, "Hello", 3.14);
+
+        // Выводим значения переменных
+        System.out.println("First value: " + obj.getFirst());
+        System.out.println("Second value: " + obj.getSecond());
+        System.out.println("Third value: " + obj.getThird());
+
+        // Выводим имена классов переменных
+        obj.printClassNames();
+    }
+}

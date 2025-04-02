@@ -1,0 +1,85 @@
+import java.awt.*;
+import java.awt.event.*;
+
+// Объявление публичного класса
+public class Calculator {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Frame frame = new Frame("Calculator");
+        
+        // Поля для ввода чисел
+        TextField num1Field = new TextField();
+        num1Field.setBounds(50, 50, 150, 30);
+        
+        TextField num2Field = new TextField();
+        num2Field.setBounds(50, 90, 150, 30);
+        
+        // Поле для результата
+        TextField resultField = new TextField();
+        resultField.setBounds(50, 170, 150, 30);
+        resultField.setEditable(false);
+        
+        // Кнопки операций
+        Button addButton = new Button("+");
+        addButton.setBounds(50, 130, 40, 30);
+        
+        Button subButton = new Button("-");
+        subButton.setBounds(100, 130, 40, 30);
+        
+        Button mulButton = new Button("*");
+        mulButton.setBounds(150, 130, 40, 30);
+        
+        Button divButton = new Button("/");
+        divButton.setBounds(200, 130, 40, 30);
+        
+        // Анонимные обработчики событий для кнопок
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                double num1 = Double.parseDouble(num1Field.getText());
+                double num2 = Double.parseDouble(num2Field.getText());
+                resultField.setText(String.valueOf(num1 + num2));
+            }
+        });
+        
+        subButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                double num1 = Double.parseDouble(num1Field.getText());
+                double num2 = Double.parseDouble(num2Field.getText());
+                resultField.setText(String.valueOf(num1 - num2));
+            }
+        });
+        
+        mulButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                double num1 = Double.parseDouble(num1Field.getText());
+                double num2 = Double.parseDouble(num2Field.getText());
+                resultField.setText(String.valueOf(num1 * num2));
+            }
+        });
+        
+        divButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                double num1 = Double.parseDouble(num1Field.getText());
+                double num2 = Double.parseDouble(num2Field.getText());
+                if (num2 != 0) {
+                    resultField.setText(String.valueOf(num1 / num2));
+                } else {
+                    resultField.setText("Ошибка");
+                }
+            }
+        });
+        
+        // Добавление элементов в окно
+        frame.add(num1Field);
+        frame.add(num2Field);
+        frame.add(resultField);
+        frame.add(addButton);
+        frame.add(subButton);
+        frame.add(mulButton);
+        frame.add(divButton);
+        
+        frame.setSize(300, 250);
+        frame.setLayout(null);
+        frame.setVisible(true);
+    }
+}

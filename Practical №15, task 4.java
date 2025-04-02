@@ -1,0 +1,79 @@
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+// Объявление публичного класса
+public class SimpleCalculator extends JFrame implements ActionListener {
+    private JTextField display;
+    private StringBuilder currentInput;
+    private double firstNumber;
+    private String operator;
+
+    public SimpleCalculator() {
+        setTitle("Simple Calculator");
+        setSize(300, 400);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLayout(new BorderLayout());
+
+        currentInput = new StringBuilder();
+        operator = "";
+
+        // Поле для вывода
+        display = new JTextField();
+        display.setEditable(false);
+        display.setHorizontalAlignment(JTextField.RIGHT);
+        add(display, BorderLayout.NORTH);
+
+        // Панель кнопок
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(4, 4, 5, 5));
+        
+        String[] buttons = {
+            "7", "8", "9", "/",
+            "4", "5", "6", "*",
+            "1", "2", "3", "-",
+            "0", ".", "=", "+"
+        };
+        
+        for (String text : buttons) {
+            JButton button = new JButton(text);
+            button.addActionListener(this);
+            panel.add(button);
+        }
+        
+        add(panel, BorderLayout.CENTER);
+        setLocationRelativeTo(null);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        String command = e.getActionCommand();
+        
+        if ("0123456789.".contains(command)) {
+            currentInput.append(command);
+            display.setText(currentInput.toString());
+        } else if ("/*-+".contains(command)) {
+            firstNumber = Double.parseDouble(currentInput.toString());
+            operator = command;
+            currentInput.setLength(0);
+        } else if (command.equals("=")) {
+            double secondNumber = Double.parseDouble(currentInput.toString());
+            double result = switch (operator) {
+                case "+" -> firstNumber + secondNumber;
+                case "-" -> firstNumber - secondNumber;
+                case "*" -> firstNumber * secondNumber;
+                case "/" -> firstNumber / secondNumber;
+                default -> 0;
+            };
+            display.setText(String.valueOf(result));
+            currentInput.setLength(0);
+            currentInput.append(result);
+        }
+    }
+
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(() -> new SimpleCalculator().setVisible(true));
+    }
+}

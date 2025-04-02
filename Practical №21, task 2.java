@@ -1,0 +1,85 @@
+// Интерфейс стула
+interface Chair {
+    void sit();
+}
+
+// Викторианский стул
+class VictorianChair implements Chair {
+    @Override
+    public void sit() {
+        System.out.println("Вы сидите на викторианском стуле.");
+    }
+}
+
+// Многофункциональный стул
+class MultifunctionalChair implements Chair {
+    @Override
+    public void sit() {
+        System.out.println("Вы сидите на многофункциональном стуле.");
+    }
+}
+
+// Магический стул
+class MagicChair implements Chair {
+    @Override
+    public void sit() {
+        System.out.println("Вы сидите на магическом стуле, и он левитирует!");
+    }
+}
+
+// Интерфейс абстрактной фабрики
+interface ChairFactory {
+    Chair createChair();
+}
+
+// Конкретная фабрика для викторианского стула
+class VictorianChairFactory implements ChairFactory {
+    @Override
+    public Chair createChair() {
+        return new VictorianChair();
+    }
+}
+
+// Конкретная фабрика для многофункционального стула
+class MultifunctionalChairFactory implements ChairFactory {
+    @Override
+    public Chair createChair() {
+        return new MultifunctionalChair();
+    }
+}
+
+// Конкретная фабрика для магического стула
+class MagicChairFactory implements ChairFactory {
+    @Override
+    public Chair createChair() {
+        return new MagicChair();
+    }
+}
+
+// Клиент, использующий стулья
+class Client {
+    public void sit(Chair chair) {
+        chair.sit();
+    }
+}
+
+// Тестирование фабрики стульев
+// Объявление публичного класса
+public class Main {
+// Главный метод программы — точка входа
+    public static void main(String[] args) {
+        Client client = new Client();
+
+        ChairFactory victorianFactory = new VictorianChairFactory();
+        ChairFactory multifunctionalFactory = new MultifunctionalChairFactory();
+        ChairFactory magicFactory = new MagicChairFactory();
+
+        Chair victorian = victorianFactory.createChair();
+        Chair multifunctional = multifunctionalFactory.createChair();
+        Chair magic = magicFactory.createChair();
+
+        client.sit(victorian);
+        client.sit(multifunctional);
+        client.sit(magic);
+    }
+}
